@@ -32,8 +32,8 @@ struct TreadmillApp: App {
         }
 
         Window("Edit Programs", id: "programs") {
-            Text("Programs — Coming Soon")
-                .frame(width: 500, height: 400)
+            ProgramEditorView()
+                .environment(\.managedObjectContext, PersistenceController.shared.viewContext)
         }
 
         Window("Settings", id: "settings") {

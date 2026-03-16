@@ -21,7 +21,7 @@ targets:
       base:
         INFOPLIST_FILE: Treadmill/Info.plist
         CODE_SIGN_ENTITLEMENTS: Treadmill/Treadmill.entitlements
-        PRODUCT_BUNDLE_IDENTIFIER: com.treadmill.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.mymill.app
         PRODUCT_NAME: Treadmill
         COMBINE_HIDPI_IMAGES: true
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

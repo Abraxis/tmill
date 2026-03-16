@@ -70,10 +70,19 @@ final class TreadmillManager: NSObject {
             print("[BLE WARN] start: no control point characteristic, aborting")
             return
         }
+
+        // Set target speed first — treadmill won't move without one
+        let speed = state.targetSpeed > 0 ? state.targetSpeed : FTMSProtocol.speedMin
+        print("[BLE] Setting speed to \(speed) km/h before start...")
+        let speedResp = await sendCommand(FTMSProtocol.encodeSetSpeed(kmh: speed))
+        print("[BLE] Speed response: \(String(describing: speedResp?.result))")
+        state.targetSpeed = speed
+
         print("[BLE] Sending FTMS Start command...")
         let response = await sendCommand(FTMSProtocol.encodeStart())
         if response?.result == .success {
             state.isRunning = true
+            print("[BLE] Treadmill started!")
         } else {
             state.lastError = "Start failed"
             print("[BLE WARN] Start failed: \(String(describing: response?.result))")
@@ -301,8 +310,10 @@ extension TreadmillManager: CBPeripheralDelegate {
 
         // Once control point indications are active, request control
         if uuid == FTMSProtocol.controlPointUUID && !state.hasControl {
-            print("[BLE] Control point indications active — requesting control...")
+            print("[BLE] Control point indications active — requesting control after brief settle...")
             Task {
+                // Small delay to let CoreBluetooth fully establish the indication path
+                try? await Task.sleep(for: .seconds(1))
                 _ = await requestControl()
             }
         }

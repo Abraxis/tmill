@@ -92,14 +92,14 @@ struct SettingsView: View {
             // Preset rows
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach($settings.quickPresets) { $preset in
+                    ForEach(Array(settings.quickPresets.enumerated()), id: \.element.id) { index, _ in
                         HStack(spacing: 0) {
-                            TextField("Name", text: $preset.name)
+                            TextField("Name", text: $settings.quickPresets[index].name)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(width: 120)
 
                             HStack(spacing: 4) {
-                                TextField("", value: $preset.speed, format: .number.precision(.fractionLength(1)))
+                                TextField("", value: $settings.quickPresets[index].speed, format: .number.precision(.fractionLength(1)))
                                     .textFieldStyle(.roundedBorder)
                                     .frame(width: 55)
                                 Text("km/h")
@@ -109,7 +109,7 @@ struct SettingsView: View {
                             .frame(width: 100)
 
                             HStack(spacing: 4) {
-                                TextField("", value: $preset.incline, format: .number.precision(.fractionLength(0)))
+                                TextField("", value: $settings.quickPresets[index].incline, format: .number.precision(.fractionLength(0)))
                                     .textFieldStyle(.roundedBorder)
                                     .frame(width: 45)
                                 Text("%")
@@ -120,10 +120,8 @@ struct SettingsView: View {
 
                             Spacer()
 
-                            Button(role: .destructive) {
-                                withAnimation {
-                                    settings.quickPresets.removeAll { $0.id == preset.id }
-                                }
+                            Button {
+                                settings.quickPresets.remove(at: index)
                             } label: {
                                 Image(systemName: "trash")
                                     .foregroundStyle(.red.opacity(0.7))

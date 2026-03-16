@@ -71,18 +71,19 @@ final class TreadmillManager: NSObject {
             return
         }
 
-        // Set target speed first — treadmill won't move without one
-        let speed = state.targetSpeed > 0 ? state.targetSpeed : FTMSProtocol.speedMin
-        print("[BLE] Setting speed to \(speed) km/h before start...")
-        let speedResp = await sendCommand(FTMSProtocol.encodeSetSpeed(kmh: speed))
-        print("[BLE] Speed response: \(String(describing: speedResp?.result))")
-        state.targetSpeed = speed
-
+        // Start belt first, then set speed — treadmill ignores speed when stopped
         print("[BLE] Sending FTMS Start command...")
         let response = await sendCommand(FTMSProtocol.encodeStart())
         if response?.result == .success {
             state.isRunning = true
             print("[BLE] Treadmill started!")
+
+            // Now set target speed so belt actually moves
+            let speed = max(state.targetSpeed, FTMSProtocol.speedMin)
+            print("[BLE] Setting speed to \(speed) km/h...")
+            let speedResp = await sendCommand(FTMSProtocol.encodeSetSpeed(kmh: speed))
+            print("[BLE] Speed response: \(String(describing: speedResp?.result))")
+            state.targetSpeed = speed
         } else {
             state.lastError = "Start failed"
             print("[BLE WARN] Start failed: \(String(describing: response?.result))")

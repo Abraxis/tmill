@@ -1,7 +1,13 @@
-// ~/src/tmill/Treadmill/Services/SettingsManager.swift
 import Foundation
 import ServiceManagement
 import os
+
+struct QuickPreset: Codable, Identifiable, Equatable {
+    var id = UUID()
+    var name: String
+    var speed: Double
+    var incline: Double
+}
 
 @Observable
 final class SettingsManager {
@@ -22,6 +28,9 @@ final class SettingsManager {
     var inclineIncrement: Double {
         didSet { sync(key: "inclineIncrement", value: inclineIncrement) }
     }
+    var quickPresets: [QuickPreset] {
+        didSet { syncPresets() }
+    }
 
     private let cloud = NSUbiquitousKeyValueStore.default
     private let defaults = UserDefaults.standard
@@ -29,7 +38,6 @@ final class SettingsManager {
     private var isMerging = false
 
     private init() {
-        // Load from local defaults first — use local vars to avoid didSet during init
         let d = defaults
         var msd = d.double(forKey: "minSessionDuration")
         if msd == 0 { msd = 300 }
@@ -43,10 +51,21 @@ final class SettingsManager {
         self.speedIncrement = si
         self.inclineIncrement = ii
 
-        // Merge iCloud values (iCloud wins if present)
+        // Load quick presets
+        if let data = d.data(forKey: "quickPresets"),
+           let presets = try? JSONDecoder().decode([QuickPreset].self, from: data) {
+            self.quickPresets = presets
+        } else {
+            // Default presets
+            self.quickPresets = [
+                QuickPreset(name: "Walk", speed: 3.0, incline: 0),
+                QuickPreset(name: "Brisk", speed: 5.0, incline: 2),
+                QuickPreset(name: "Hill", speed: 4.0, incline: 8),
+            ]
+        }
+
         mergeFromCloud()
 
-        // Observe iCloud changes
         NotificationCenter.default.addObserver(
             forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
             object: cloud, queue: .main
@@ -71,12 +90,24 @@ final class SettingsManager {
         if cloud.object(forKey: "inclineIncrement") != nil {
             inclineIncrement = cloud.double(forKey: "inclineIncrement")
         }
+        if let data = cloud.data(forKey: "quickPresets"),
+           let presets = try? JSONDecoder().decode([QuickPreset].self, from: data) {
+            quickPresets = presets
+        }
     }
 
     private func sync(key: String, value: Any) {
         guard !isMerging else { return }
         defaults.set(value, forKey: key)
         cloud.set(value, forKey: key)
+    }
+
+    private func syncPresets() {
+        guard !isMerging else { return }
+        if let data = try? JSONEncoder().encode(quickPresets) {
+            defaults.set(data, forKey: "quickPresets")
+            cloud.set(data, forKey: "quickPresets")
+        }
     }
 
     private func updateLaunchAtLogin() {

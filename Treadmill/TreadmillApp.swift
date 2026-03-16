@@ -182,6 +182,18 @@ struct MenuBarContentView: View {
             Button("Incline − (\(String(format: "%.0f", s.inclineIncrement))%)") {
                 fire { await mgr.setIncline(snap.targetIncline - s.inclineIncrement) }
             }
+
+            if !s.quickPresets.isEmpty {
+                Divider()
+                ForEach(s.quickPresets) { preset in
+                    Button("⚡ \(preset.name) — \(String(format: "%.1f", preset.speed)) km/h, \(String(format: "%.0f", preset.incline))%") {
+                        fire {
+                            await mgr.setSpeed(preset.speed)
+                            await mgr.setIncline(preset.incline)
+                        }
+                    }
+                }
+            }
         } else {
             Text(snap.connectionStatus)
                 .foregroundStyle(.secondary)

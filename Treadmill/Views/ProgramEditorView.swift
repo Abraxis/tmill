@@ -40,7 +40,7 @@ struct ProgramEditorView: View {
                 )
             }
         }
-        .frame(minWidth: 600, minHeight: 450)
+        .frame(minWidth: 650, minHeight: 450)
         .navigationTitle("Workout Programs")
     }
 
@@ -117,7 +117,6 @@ struct ProgramDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Header
             HStack {
                 TextField("Program Name", text: Binding(
                     get: { program.name },
@@ -137,7 +136,6 @@ struct ProgramDetailView: View {
 
             Divider()
 
-            // Segments
             List {
                 ForEach(Array(program.sortedSegments.enumerated()), id: \.element.objectID) { index, segment in
                     SegmentCard(segment: segment, index: index + 1)
@@ -204,75 +202,108 @@ private struct SegmentCard: View {
     let index: Int
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 12) {
             // Segment number
             Text("\(index)")
                 .font(.title3.bold())
                 .foregroundStyle(.secondary)
                 .frame(width: 24)
 
-            // Speed & Incline
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 12) {
-                    Label {
-                        Stepper(
-                            String(format: "%.1f km/h", segment.targetSpeed),
-                            value: Binding(
-                                get: { segment.targetSpeed },
-                                set: { segment.targetSpeed = $0; try? viewContext.save() }
-                            ),
-                            in: FTMSProtocol.speedMin...FTMSProtocol.speedMax,
-                            step: FTMSProtocol.speedStep
-                        )
-                    } icon: {
+            VStack(alignment: .leading, spacing: 8) {
+                // Speed & Incline row
+                HStack(spacing: 16) {
+                    // Speed: text input + stepper
+                    HStack(spacing: 4) {
                         Image(systemName: "speedometer")
                             .foregroundStyle(.blue)
+                            .frame(width: 16)
+                        TextField("", value: Binding(
+                            get: { segment.targetSpeed },
+                            set: { segment.targetSpeed = clampSpeed($0); try? viewContext.save() }
+                        ), format: .number.precision(.fractionLength(1)))
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 55)
+                        Text("km/h")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Stepper("", value: Binding(
+                            get: { segment.targetSpeed },
+                            set: { segment.targetSpeed = $0; try? viewContext.save() }
+                        ), in: FTMSProtocol.speedMin...FTMSProtocol.speedMax, step: FTMSProtocol.speedStep)
+                        .labelsHidden()
                     }
 
-                    Label {
-                        Stepper(
-                            String(format: "%.0f%%", segment.targetIncline),
-                            value: Binding(
-                                get: { segment.targetIncline },
-                                set: { segment.targetIncline = $0; try? viewContext.save() }
-                            ),
-                            in: FTMSProtocol.inclineMin...FTMSProtocol.inclineMax,
-                            step: FTMSProtocol.inclineStep
-                        )
-                    } icon: {
+                    // Incline: text input + stepper
+                    HStack(spacing: 4) {
                         Image(systemName: "arrow.up.right")
                             .foregroundStyle(.purple)
+                            .frame(width: 16)
+                        TextField("", value: Binding(
+                            get: { segment.targetIncline },
+                            set: { segment.targetIncline = clampIncline($0); try? viewContext.save() }
+                        ), format: .number.precision(.fractionLength(0)))
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 45)
+                        Text("%")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Stepper("", value: Binding(
+                            get: { segment.targetIncline },
+                            set: { segment.targetIncline = $0; try? viewContext.save() }
+                        ), in: FTMSProtocol.inclineMin...FTMSProtocol.inclineMax, step: FTMSProtocol.inclineStep)
+                        .labelsHidden()
                     }
                 }
 
-                // Goal
+                // Goal row
                 HStack(spacing: 8) {
-                    Label {
-                        Picker("", selection: Binding(
-                            get: { segment.goalType },
-                            set: { segment.goalType = $0; try? viewContext.save() }
-                        )) {
-                            ForEach(GoalType.allCases, id: \.rawValue) { type in
-                                Text(type.rawValue.capitalized).tag(type.rawValue)
+                    Image(systemName: goalIcon)
+                        .foregroundStyle(.green)
+                        .frame(width: 16)
+
+                    Picker("", selection: Binding(
+                        get: { segment.goalType },
+                        set: { newType in
+                            // Convert value when switching between time and other types
+                            if newType == GoalType.time.rawValue && segment.goalType != GoalType.time.rawValue {
+                                // Convert to seconds if it looks like it was minutes
+                                if segment.goalValue < 120 { segment.goalValue = segment.goalValue * 60 }
+                            } else if newType != GoalType.time.rawValue && segment.goalType == GoalType.time.rawValue {
+                                // Don't auto-convert
                             }
+                            segment.goalType = newType
+                            try? viewContext.save()
                         }
-                        .labelsHidden()
-                        .frame(width: 100)
-                    } icon: {
-                        Image(systemName: goalIcon)
-                            .foregroundStyle(.green)
+                    )) {
+                        ForEach(GoalType.allCases, id: \.rawValue) { type in
+                            Text(type.rawValue.capitalized).tag(type.rawValue)
+                        }
                     }
+                    .labelsHidden()
+                    .frame(width: 100)
 
-                    TextField("Value", value: Binding(
-                        get: { segment.goalValue },
-                        set: { segment.goalValue = $0; try? viewContext.save() }
-                    ), format: .number)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 70)
-
-                    Text(goalUnit)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    if segment.goalTypeEnum == .time {
+                        // Show minutes input for time goals
+                        TextField("", value: Binding(
+                            get: { segment.goalValue / 60 },
+                            set: { segment.goalValue = $0 * 60; try? viewContext.save() }
+                        ), format: .number.precision(.fractionLength(0)))
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 55)
+                        Text("min")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        TextField("", value: Binding(
+                            get: { segment.goalValue },
+                            set: { segment.goalValue = $0; try? viewContext.save() }
+                        ), format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 70)
+                        Text(goalUnit)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
 
                     Spacer()
 
@@ -283,6 +314,14 @@ private struct SegmentCard: View {
             }
         }
         .padding(.vertical, 4)
+    }
+
+    private func clampSpeed(_ v: Double) -> Double {
+        max(FTMSProtocol.speedMin, min(FTMSProtocol.speedMax, v))
+    }
+
+    private func clampIncline(_ v: Double) -> Double {
+        max(FTMSProtocol.inclineMin, min(FTMSProtocol.inclineMax, v))
     }
 
     private var goalIcon: String {
@@ -296,7 +335,7 @@ private struct SegmentCard: View {
     private var goalUnit: String {
         switch segment.goalTypeEnum {
         case .distance: return "m"
-        case .time: return "sec"
+        case .time: return "min"
         case .calories: return "cal"
         }
     }

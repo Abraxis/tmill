@@ -46,6 +46,48 @@ struct SettingsView: View {
             }
 
             Section {
+                ForEach($settings.quickPresets) { $preset in
+                    HStack(spacing: 8) {
+                        TextField("Name", text: $preset.name)
+                            .frame(width: 80)
+                        Spacer()
+                        Text("Speed:")
+                            .foregroundStyle(.secondary)
+                            .font(.caption)
+                        TextField("", value: $preset.speed, format: .number.precision(.fractionLength(1)))
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 50)
+                        Text("km/h")
+                            .foregroundStyle(.secondary)
+                            .font(.caption)
+                        Text("Incline:")
+                            .foregroundStyle(.secondary)
+                            .font(.caption)
+                        TextField("", value: $preset.incline, format: .number.precision(.fractionLength(0)))
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 40)
+                        Text("%")
+                            .foregroundStyle(.secondary)
+                            .font(.caption)
+                    }
+                }
+                .onDelete { indices in
+                    settings.quickPresets.remove(atOffsets: indices)
+                }
+                Button("Add Preset") {
+                    settings.quickPresets.append(
+                        QuickPreset(name: "Preset", speed: 3.0, incline: 0)
+                    )
+                }
+            } header: {
+                Label("Quick Presets", systemImage: "star")
+            } footer: {
+                Text("Quick presets appear in the menu bar dropdown for one-tap speed/incline changes.")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+
+            Section {
                 HStack {
                     Text("Speed range")
                     Spacer()
@@ -63,7 +105,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420, height: 520)
+        .frame(width: 480, height: 620)
         .navigationTitle("Settings")
     }
 }

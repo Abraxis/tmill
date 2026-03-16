@@ -29,7 +29,9 @@ struct TreadmillApp: App {
 
         Window("Settings", id: "settings") {
             SettingsView()
+                .fixedSize()
         }
+        .windowResizability(.contentSize)
     }
 }
 
@@ -187,10 +189,10 @@ struct MenuBarContentView: View {
 
         Divider()
 
-        Button("Open History...") { openWindow(id: "history") }
+        Button("Open History...") { activateAndOpen("history") }
             .keyboardShortcut("h")
-        Button("Edit Programs...") { openWindow(id: "programs") }
-        Button("Settings...") { openWindow(id: "settings") }
+        Button("Edit Programs...") { activateAndOpen("programs") }
+        Button("Settings...") { activateAndOpen("settings") }
             .keyboardShortcut(",")
 
         Divider()
@@ -201,5 +203,10 @@ struct MenuBarContentView: View {
 
     private func fire(_ action: @escaping @Sendable () async -> Void) {
         Task.detached { await action() }
+    }
+
+    private func activateAndOpen(_ id: String) {
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        openWindow(id: id)
     }
 }

@@ -1,31 +1,23 @@
-// ~/src/tmill/Treadmill/Services/PersistenceController.swift
 import CoreData
 import os
 
 final class PersistenceController {
     static let shared = PersistenceController()
 
-    let container: NSPersistentCloudKitContainer
+    let container: NSPersistentContainer
 
     private let logger = Logger(subsystem: "com.treadmill.app", category: "Persistence")
 
     init(inMemory: Bool = false) {
         let model = CoreDataModel.create()
-        container = NSPersistentCloudKitContainer(name: "Treadmill", managedObjectModel: model)
+        // Use regular container — CloudKit requires code signing + provisioning.
+        // Switch to NSPersistentCloudKitContainer when distributing via App Store.
+        container = NSPersistentContainer(name: "Treadmill", managedObjectModel: model)
 
         if inMemory {
             let description = NSPersistentStoreDescription()
             description.type = NSInMemoryStoreType
             container.persistentStoreDescriptions = [description]
-        } else {
-            guard let description = container.persistentStoreDescriptions.first else {
-                fatalError("No persistent store descriptions found")
-            }
-            description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(
-                containerIdentifier: "iCloud.com.treadmill.app"
-            )
-            description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-            description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         }
 
         container.loadPersistentStores { description, error in
@@ -52,7 +44,6 @@ final class PersistenceController {
         }
     }
 
-    /// For testing
     static var preview: PersistenceController = {
         PersistenceController(inMemory: true)
     }()

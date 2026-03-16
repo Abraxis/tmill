@@ -1,27 +1,30 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Bindable var settings = SettingsManager.shared
-    @Bindable var healthKit = HealthKitManager.shared
     @State private var selectedTab = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            generalTab
+            GeneralSettingsTab()
                 .tabItem { Label("General", systemImage: "gearshape") }
                 .tag(0)
 
-            presetsTab
+            PresetsSettingsTab()
                 .tabItem { Label("Quick Presets", systemImage: "star") }
                 .tag(1)
         }
         .frame(width: 450, height: 620)
         .navigationTitle("Settings")
     }
+}
 
-    // MARK: - General Tab
+// MARK: - General Tab (isolated view)
 
-    private var generalTab: some View {
+private struct GeneralSettingsTab: View {
+    @Bindable var settings = SettingsManager.shared
+    @Bindable var healthKit = HealthKitManager.shared
+
+    var body: some View {
         Form {
             Section("Startup") {
                 Toggle("Launch at login", isOn: $settings.launchAtLogin)
@@ -29,12 +32,17 @@ struct SettingsView: View {
 
             Section("Apple Health") {
                 if healthKit.isAvailable {
-                    Toggle("Sync workouts to Health", isOn: $healthKit.syncEnabled)
-                        .onChange(of: healthKit.syncEnabled) { _, newValue in
+                    Toggle("Sync workouts to Health", isOn: Binding(
+                        get: { healthKit.syncEnabled },
+                        set: { newValue in
+                            healthKit.syncEnabled = newValue
                             if newValue {
-                                Task { _ = await healthKit.requestAuthorization() }
+                                Task.detached {
+                                    _ = await HealthKitManager.shared.requestAuthorization()
+                                }
                             }
                         }
+                    ))
                     if healthKit.syncEnabled {
                         Text("Completed treadmill sessions are saved as indoor walking workouts.")
                             .font(.caption)
@@ -86,12 +94,15 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
     }
+}
 
-    // MARK: - Presets Tab
+// MARK: - Presets Tab (isolated view — avoids exclusivity conflicts with General tab)
 
-    private var presetsTab: some View {
+private struct PresetsSettingsTab: View {
+    @State private var presets: [QuickPreset] = SettingsManager.shared.quickPresets
+
+    var body: some View {
         VStack(spacing: 0) {
-            // Header row
             HStack(spacing: 0) {
                 Text("Name")
                     .frame(width: 120, alignment: .leading)
@@ -109,17 +120,16 @@ struct SettingsView: View {
 
             Divider()
 
-            // Preset rows
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(Array(settings.quickPresets.enumerated()), id: \.element.id) { index, _ in
+                    ForEach($presets) { $preset in
                         HStack(spacing: 0) {
-                            TextField("Name", text: $settings.quickPresets[index].name)
+                            TextField("Name", text: $preset.name)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(width: 120)
 
                             HStack(spacing: 4) {
-                                TextField("", value: $settings.quickPresets[index].speed, format: .number.precision(.fractionLength(1)))
+                                TextField("", value: $preset.speed, format: .number.precision(.fractionLength(1)))
                                     .textFieldStyle(.roundedBorder)
                                     .frame(width: 55)
                                 Text("km/h")
@@ -129,7 +139,7 @@ struct SettingsView: View {
                             .frame(width: 100)
 
                             HStack(spacing: 4) {
-                                TextField("", value: $settings.quickPresets[index].incline, format: .number.precision(.fractionLength(0)))
+                                TextField("", value: $preset.incline, format: .number.precision(.fractionLength(0)))
                                     .textFieldStyle(.roundedBorder)
                                     .frame(width: 45)
                                 Text("%")
@@ -141,7 +151,7 @@ struct SettingsView: View {
                             Spacer()
 
                             Button {
-                                settings.quickPresets.remove(at: index)
+                                presets.removeAll { $0.id == preset.id }
                             } label: {
                                 Image(systemName: "trash")
                                     .foregroundStyle(.red.opacity(0.7))
@@ -160,9 +170,7 @@ struct SettingsView: View {
 
             HStack {
                 Button {
-                    settings.quickPresets.append(
-                        QuickPreset(name: "Preset", speed: 3.0, incline: 0)
-                    )
+                    presets.append(QuickPreset(name: "Preset", speed: 3.0, incline: 0))
                 } label: {
                     Label("Add Preset", systemImage: "plus")
                 }
@@ -175,6 +183,9 @@ struct SettingsView: View {
                     .foregroundStyle(.tertiary)
             }
             .padding(10)
+        }
+        .onChange(of: presets) { _, newValue in
+            SettingsManager.shared.quickPresets = newValue
         }
     }
 }

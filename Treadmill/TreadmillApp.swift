@@ -1,7 +1,4 @@
 import SwiftUI
-import os
-
-private let logger = Logger(subsystem: "com.treadmill.app", category: "App")
 
 @main
 struct TreadmillApp: App {
@@ -47,7 +44,6 @@ final class AppState {
     var programEngine: ProgramEngine!
 
     init() {
-        logger.info("AppState init — creating manager")
         manager = TreadmillManager(state: treadmill)
         programEngine = ProgramEngine(state: treadmill)
         sessionTracker = SessionTracker(
@@ -168,7 +164,6 @@ struct MenuBarContentView: View {
 
     /// Fire-and-forget: detached task so menu dismissal doesn't cancel it
     private func fireCommand(_ action: @escaping @Sendable () async -> Void) {
-        logger.info("Menu command fired")
         Task.detached {
             await action()
         }

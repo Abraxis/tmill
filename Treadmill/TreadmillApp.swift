@@ -88,63 +88,97 @@ final class AppState {
     }
 }
 
-/// Menu content — uses fire-and-forget for BLE commands (menu closes on click)
+/// Snapshot of treadmill state — captured once when menu opens, prevents live re-renders
+struct MenuSnapshot {
+    let isConnected: Bool
+    let isRunning: Bool
+    let connectionStatus: String
+    let deviceName: String
+    let speed: Double
+    let incline: Double
+    let distance: Double
+    let elapsed: TimeInterval
+    let calories: Int
+    let targetSpeed: Double
+    let targetIncline: Double
+
+    init(from t: TreadmillState) {
+        isConnected = t.isConnected
+        isRunning = t.isRunning
+        connectionStatus = t.connectionStatus.rawValue
+        deviceName = t.deviceName
+        speed = t.speed
+        incline = t.incline
+        distance = t.distance
+        elapsed = t.elapsed
+        calories = t.calories
+        targetSpeed = t.targetSpeed
+        targetIncline = t.targetIncline
+    }
+
+    var statusLine: String {
+        if isConnected {
+            return "\(deviceName) — \(isRunning ? String(format: "%.1f km/h", speed) : "Idle")"
+        }
+        return "Treadmill"
+    }
+
+    var distanceFormatted: String {
+        distance >= 1000 ? String(format: "%.2f km", distance / 1000) : "\(Int(distance)) m"
+    }
+
+    var timeFormatted: String {
+        let mins = Int(elapsed) / 60
+        let secs = Int(elapsed) % 60
+        return String(format: "%d:%02d", mins, secs)
+    }
+}
+
+/// Menu content — snapshot-based to avoid re-renders from live BLE data
 struct MenuBarContentView: View {
     let appState: AppState
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        let t = appState.treadmill
+        // Snapshot state once when menu opens — no live binding
+        let snap = MenuSnapshot(from: appState.treadmill)
+        let mgr = appState.manager
+        let s = appState.settings
 
-        Text(statusLine)
+        Text(snap.statusLine)
             .font(.headline)
 
         Divider()
 
-        if t.isConnected {
-            Text("Speed: \(String(format: "%.1f", t.speed)) km/h")
-            Text("Incline: \(String(format: "%.0f", t.incline))%")
-            Text("Distance: \(formatDistance(t.distance))")
-            Text("Time: \(formatTime(t.elapsed))")
-            Text("Calories: \(t.calories) kcal")
+        if snap.isConnected {
+            Text("Speed: \(String(format: "%.1f", snap.speed)) km/h")
+            Text("Incline: \(String(format: "%.0f", snap.incline))%")
+            Text("Distance: \(snap.distanceFormatted)")
+            Text("Time: \(snap.timeFormatted)")
+            Text("Calories: \(snap.calories) kcal")
 
             Divider()
 
-            Button("▶ Start") { fireCommand { await appState.manager.start() } }
-                .disabled(t.isRunning)
-
-            Button("⏹ Stop") { fireCommand { await appState.manager.stop() } }
-                .disabled(!t.isRunning)
-
-            Button("⏸ Pause") { fireCommand { await appState.manager.pause() } }
-                .disabled(!t.isRunning)
+            Button("▶ Start") { fire { await mgr.start() } }
+            Button("⏹ Stop") { fire { await mgr.stop() } }
+            Button("⏸ Pause") { fire { await mgr.pause() } }
 
             Divider()
 
-            let s = appState.settings
             Button("Speed + (\(String(format: "%.1f", s.speedIncrement)))") {
-                fireCommand { await appState.manager.setSpeed(t.targetSpeed + s.speedIncrement) }
+                fire { await mgr.setSpeed(snap.targetSpeed + s.speedIncrement) }
             }
-
             Button("Speed − (\(String(format: "%.1f", s.speedIncrement)))") {
-                fireCommand { await appState.manager.setSpeed(t.targetSpeed - s.speedIncrement) }
+                fire { await mgr.setSpeed(snap.targetSpeed - s.speedIncrement) }
             }
-
             Button("Incline + (\(String(format: "%.0f", s.inclineIncrement))%)") {
-                fireCommand { await appState.manager.setIncline(t.targetIncline + s.inclineIncrement) }
+                fire { await mgr.setIncline(snap.targetIncline + s.inclineIncrement) }
             }
-
             Button("Incline − (\(String(format: "%.0f", s.inclineIncrement))%)") {
-                fireCommand { await appState.manager.setIncline(t.targetIncline - s.inclineIncrement) }
-            }
-
-            if let engine = appState.programEngine, engine.isActive {
-                Divider()
-                Text("Program: \(engine.programName ?? "Active")")
-                Text("Segment \(engine.currentSegmentIndex + 1)/\(engine.totalSegments) — \(Int(engine.segmentProgress * 100))%")
+                fire { await mgr.setIncline(snap.targetIncline - s.inclineIncrement) }
             }
         } else {
-            Text(t.connectionStatus.rawValue)
+            Text(snap.connectionStatus)
                 .foregroundStyle(.secondary)
         }
 
@@ -162,28 +196,7 @@ struct MenuBarContentView: View {
             .keyboardShortcut("q")
     }
 
-    /// Fire-and-forget: detached task so menu dismissal doesn't cancel it
-    private func fireCommand(_ action: @escaping @Sendable () async -> Void) {
-        Task.detached {
-            await action()
-        }
-    }
-
-    private var statusLine: String {
-        let t = appState.treadmill
-        if t.isConnected {
-            return "\(t.deviceName) — \(t.isRunning ? String(format: "%.1f km/h", t.speed) : "Idle")"
-        }
-        return "Treadmill"
-    }
-
-    private func formatDistance(_ meters: Double) -> String {
-        meters >= 1000 ? String(format: "%.2f km", meters / 1000) : "\(Int(meters)) m"
-    }
-
-    private func formatTime(_ seconds: TimeInterval) -> String {
-        let mins = Int(seconds) / 60
-        let secs = Int(seconds) % 60
-        return String(format: "%d:%02d", mins, secs)
+    private func fire(_ action: @escaping @Sendable () async -> Void) {
+        Task.detached { await action() }
     }
 }

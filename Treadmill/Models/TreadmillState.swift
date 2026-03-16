@@ -32,7 +32,12 @@ final class TreadmillState {
     }
 
     func update(from frame: FTMSProtocol.TreadmillDataFrame) {
-        if let s = frame.speed { speed = s }
+        if let s = frame.speed {
+            speed = s
+            // Detect running state from live speed data
+            if s > 0 { isRunning = true }
+            else if isRunning && s == 0 { isRunning = false }
+        }
         if let a = frame.avgSpeed { avgSpeed = a }
         if let d = frame.totalDistance { distance = Double(d) }
         if let i = frame.incline { incline = i }

@@ -1,0 +1,428 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		96FE58A86E46C2B08E69B4AE /* TreadmillApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCDAFD497A331B683756DB /* TreadmillApp.swift */; };
+		FD4A859A6C0B9EA5E8E5F46B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38A78BC9B8364D89A6A6F0C5 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F52435D54DFBB2658C187205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D4515607055B1D472C7E91A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F68DA4FBD54CFD76FD99BFA1;
+			remoteInfo = Treadmill;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1361DBD1C21A57788B7A68B6 /* TreadmillTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreadmillTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		287922C91CC40671F28072DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		368650DFDE4ECA68E825A680 /* Treadmill.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Treadmill.entitlements; sourceTree = "<group>"; };
+		38A78BC9B8364D89A6A6F0C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A3CCDAFD497A331B683756DB /* TreadmillApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreadmillApp.swift; sourceTree = "<group>"; };
+		A4FB5B541ABB9DCB1E8890CB /* Treadmill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treadmill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		173009DF97B2E8EAD2CC1471 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		50A8BF9CC35D07BFF539DB4F /* Treadmill */ = {
+			isa = PBXGroup;
+			children = (
+				38A78BC9B8364D89A6A6F0C5 /* Assets.xcassets */,
+				287922C91CC40671F28072DC /* Info.plist */,
+				368650DFDE4ECA68E825A680 /* Treadmill.entitlements */,
+				A3CCDAFD497A331B683756DB /* TreadmillApp.swift */,
+				DB2B32DEF6F18BF65C48030D /* Bluetooth */,
+				173009DF97B2E8EAD2CC1471 /* Models */,
+				DED87029B8296DC99F42EBA9 /* Services */,
+				5B9DC66BDFCC953345F82D76 /* Views */,
+			);
+			path = Treadmill;
+			sourceTree = "<group>";
+		};
+		5B9DC66BDFCC953345F82D76 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9A9BB2BB93DC04AFCE0532CC /* TreadmillTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TreadmillTests;
+			sourceTree = "<group>";
+		};
+		B96A3D01BC5CE401226291C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A4FB5B541ABB9DCB1E8890CB /* Treadmill.app */,
+				1361DBD1C21A57788B7A68B6 /* TreadmillTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DB2B32DEF6F18BF65C48030D /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		DED87029B8296DC99F42EBA9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F312246A7FEBBFAEFA90A419 = {
+			isa = PBXGroup;
+			children = (
+				50A8BF9CC35D07BFF539DB4F /* Treadmill */,
+				9A9BB2BB93DC04AFCE0532CC /* TreadmillTests */,
+				B96A3D01BC5CE401226291C4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D1ABFDFD09574729EA1655E8 /* TreadmillTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA376B6840FB38D3302ADF67 /* Build configuration list for PBXNativeTarget "TreadmillTests" */;
+			buildPhases = (
+				22D2EDB7C3428B772EE6E8CE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CCFF8AD3D7EAEC67CC1B7AE3 /* PBXTargetDependency */,
+			);
+			name = TreadmillTests;
+			packageProductDependencies = (
+			);
+			productName = TreadmillTests;
+			productReference = 1361DBD1C21A57788B7A68B6 /* TreadmillTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F68DA4FBD54CFD76FD99BFA1 /* Treadmill */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D4FBE688CFFD548B17526F2 /* Build configuration list for PBXNativeTarget "Treadmill" */;
+			buildPhases = (
+				EA03303766BC665F0BC82A3A /* Sources */,
+				951E1D34746684FCA1A8A0F3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Treadmill;
+			packageProductDependencies = (
+			);
+			productName = Treadmill;
+			productReference = A4FB5B541ABB9DCB1E8890CB /* Treadmill.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7D4515607055B1D472C7E91A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 56F8E8F79F24E37FF3810ADC /* Build configuration list for PBXProject "Treadmill" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F312246A7FEBBFAEFA90A419;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = B96A3D01BC5CE401226291C4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F68DA4FBD54CFD76FD99BFA1 /* Treadmill */,
+				D1ABFDFD09574729EA1655E8 /* TreadmillTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		951E1D34746684FCA1A8A0F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD4A859A6C0B9EA5E8E5F46B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		22D2EDB7C3428B772EE6E8CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA03303766BC665F0BC82A3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96FE58A86E46C2B08E69B4AE /* TreadmillApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CCFF8AD3D7EAEC67CC1B7AE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F68DA4FBD54CFD76FD99BFA1 /* Treadmill */;
+			targetProxy = F52435D54DFBB2658C187205 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		015B156F11DFE0A4A6B84322 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Treadmill/Treadmill.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Treadmill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.treadmill.app;
+				PRODUCT_NAME = Treadmill;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1720A7404794B2EA0F86D79B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.treadmill.TreadmillTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Treadmill.app/Contents/MacOS/Treadmill";
+			};
+			name = Release;
+		};
+		1C88B3638AA9807CD6D2438C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		3146357D34BC78F11D5AD58E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.treadmill.TreadmillTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Treadmill.app/Contents/MacOS/Treadmill";
+			};
+			name = Debug;
+		};
+		8D645517DFF80F6DC763CAE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Treadmill/Treadmill.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Treadmill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.treadmill.app;
+				PRODUCT_NAME = Treadmill;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E8CEED552C225600E86AE1E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D4FBE688CFFD548B17526F2 /* Build configuration list for PBXNativeTarget "Treadmill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				015B156F11DFE0A4A6B84322 /* Debug */,
+				8D645517DFF80F6DC763CAE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		56F8E8F79F24E37FF3810ADC /* Build configuration list for PBXProject "Treadmill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C88B3638AA9807CD6D2438C /* Debug */,
+				E8CEED552C225600E86AE1E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EA376B6840FB38D3302ADF67 /* Build configuration list for PBXNativeTarget "TreadmillTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3146357D34BC78F11D5AD58E /* Debug */,
+				1720A7404794B2EA0F86D79B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7D4515607055B1D472C7E91A /* Project object */;
+}

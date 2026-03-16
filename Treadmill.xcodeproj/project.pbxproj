@@ -7,8 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0211BE07CCA09F4C8A43C503 /* ProgramEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D97575E98474D27E8D1DF6 /* ProgramEditorView.swift */; };
+		038CCCE593474D2FD24283A7 /* ProgramEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4981BEFCE3D098443DF22 /* ProgramEngineTests.swift */; };
+		09C7802E342F0717C0A3A215 /* SessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B881D04058980D703FB3688 /* SessionTracker.swift */; };
+		0E23BDDC3321D9C8390C7797 /* WorkoutProgram+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EF65E7A425D7FFB8CA44B8 /* WorkoutProgram+CoreData.swift */; };
+		307B41C020DAF884A6BA48D1 /* SessionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB105C00C790B4198D319A93 /* SessionTrackerTests.swift */; };
+		3B486A33690938F009C03884 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B849607092F5B34761F965 /* SettingsView.swift */; };
+		4370DC21655C01E165209F9C /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7998C26942DD6A8EC8B01EAE /* CoreDataModel.swift */; };
+		4CE02B9E5BE8914873E163BD /* TreadmillState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FD0C1C2A885A6B8A67EDB /* TreadmillState.swift */; };
+		538FE8CBEE5BE41A8A5B566D /* WorkoutSession+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C39F08B9D05E36944FC4BDE /* WorkoutSession+CoreData.swift */; };
+		6854371D625334800161CC97 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35241B12C3F1BD1715EFBE89 /* MenuBarView.swift */; };
+		747B594DB58D3B41BAADAEA5 /* TreadmillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760A5981F92F6DBAE9BF5F5 /* TreadmillManager.swift */; };
+		7537EB993FA43CFAC9B01CF3 /* TrendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1396497FEA6AF1AC2ABA64 /* TrendsView.swift */; };
 		7B2B05437A66646FAD982C53 /* FTMSProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4727DB6832FFE8B4C4F520E5 /* FTMSProtocol.swift */; };
 		96FE58A86E46C2B08E69B4AE /* TreadmillApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCDAFD497A331B683756DB /* TreadmillApp.swift */; };
+		9F87803CE7F28D947BB8371F /* ProgramEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8E1E06543163CA0CAA4D3F /* ProgramEngine.swift */; };
+		A815DFEA1EF63EA15A49853C /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105BBEF58B5BCD68DAF9B5FF /* SettingsManager.swift */; };
+		B61249FD9236FDDE0B10D237 /* ProgramSegment+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ADEAB0AADD7394F0FD00E1 /* ProgramSegment+CoreData.swift */; };
+		B69EB9BF5ACFBC2B67C87C38 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7F456BF41F268598432F70 /* PersistenceController.swift */; };
+		C8F0A57372C2476389CF7BEF /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75A4283F911692D42CEDFFA /* SessionDetailView.swift */; };
+		D95EAB77BF9954CFCE9CF719 /* HistoryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A185CF478A13C5E0D161DA /* HistoryWindow.swift */; };
 		F63FEC9E7A68CC9C571E011E /* FTMSProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D55714BB4F7F78C61CE66A /* FTMSProtocolTests.swift */; };
 		FD4A859A6C0B9EA5E8E5F46B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38A78BC9B8364D89A6A6F0C5 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -24,20 +42,43 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		105BBEF58B5BCD68DAF9B5FF /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		1361DBD1C21A57788B7A68B6 /* TreadmillTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreadmillTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C39F08B9D05E36944FC4BDE /* WorkoutSession+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutSession+CoreData.swift"; sourceTree = "<group>"; };
 		287922C91CC40671F28072DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2C0FD0C1C2A885A6B8A67EDB /* TreadmillState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreadmillState.swift; sourceTree = "<group>"; };
+		33B849607092F5B34761F965 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		35241B12C3F1BD1715EFBE89 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		368650DFDE4ECA68E825A680 /* Treadmill.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Treadmill.entitlements; sourceTree = "<group>"; };
 		38A78BC9B8364D89A6A6F0C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		39ADEAB0AADD7394F0FD00E1 /* ProgramSegment+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProgramSegment+CoreData.swift"; sourceTree = "<group>"; };
 		4727DB6832FFE8B4C4F520E5 /* FTMSProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSProtocol.swift; sourceTree = "<group>"; };
+		4B881D04058980D703FB3688 /* SessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTracker.swift; sourceTree = "<group>"; };
 		63D55714BB4F7F78C61CE66A /* FTMSProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSProtocolTests.swift; sourceTree = "<group>"; };
+		6D7F456BF41F268598432F70 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		7998C26942DD6A8EC8B01EAE /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
+		8DA4981BEFCE3D098443DF22 /* ProgramEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEngineTests.swift; sourceTree = "<group>"; };
+		9E1396497FEA6AF1AC2ABA64 /* TrendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsView.swift; sourceTree = "<group>"; };
+		A3A185CF478A13C5E0D161DA /* HistoryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryWindow.swift; sourceTree = "<group>"; };
 		A3CCDAFD497A331B683756DB /* TreadmillApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreadmillApp.swift; sourceTree = "<group>"; };
 		A4FB5B541ABB9DCB1E8890CB /* Treadmill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treadmill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B75A4283F911692D42CEDFFA /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		DB105C00C790B4198D319A93 /* SessionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTrackerTests.swift; sourceTree = "<group>"; };
+		DE8E1E06543163CA0CAA4D3F /* ProgramEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEngine.swift; sourceTree = "<group>"; };
+		E5EF65E7A425D7FFB8CA44B8 /* WorkoutProgram+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutProgram+CoreData.swift"; sourceTree = "<group>"; };
+		E760A5981F92F6DBAE9BF5F5 /* TreadmillManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreadmillManager.swift; sourceTree = "<group>"; };
+		F7D97575E98474D27E8D1DF6 /* ProgramEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		173009DF97B2E8EAD2CC1471 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7998C26942DD6A8EC8B01EAE /* CoreDataModel.swift */,
+				39ADEAB0AADD7394F0FD00E1 /* ProgramSegment+CoreData.swift */,
+				2C0FD0C1C2A885A6B8A67EDB /* TreadmillState.swift */,
+				E5EF65E7A425D7FFB8CA44B8 /* WorkoutProgram+CoreData.swift */,
+				1C39F08B9D05E36944FC4BDE /* WorkoutSession+CoreData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -60,6 +101,12 @@
 		5B9DC66BDFCC953345F82D76 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A3A185CF478A13C5E0D161DA /* HistoryWindow.swift */,
+				35241B12C3F1BD1715EFBE89 /* MenuBarView.swift */,
+				F7D97575E98474D27E8D1DF6 /* ProgramEditorView.swift */,
+				B75A4283F911692D42CEDFFA /* SessionDetailView.swift */,
+				33B849607092F5B34761F965 /* SettingsView.swift */,
+				9E1396497FEA6AF1AC2ABA64 /* TrendsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -68,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				63D55714BB4F7F78C61CE66A /* FTMSProtocolTests.swift */,
+				8DA4981BEFCE3D098443DF22 /* ProgramEngineTests.swift */,
+				DB105C00C790B4198D319A93 /* SessionTrackerTests.swift */,
 			);
 			path = TreadmillTests;
 			sourceTree = "<group>";
@@ -85,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				4727DB6832FFE8B4C4F520E5 /* FTMSProtocol.swift */,
+				E760A5981F92F6DBAE9BF5F5 /* TreadmillManager.swift */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -92,6 +142,10 @@
 		DED87029B8296DC99F42EBA9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6D7F456BF41F268598432F70 /* PersistenceController.swift */,
+				DE8E1E06543163CA0CAA4D3F /* ProgramEngine.swift */,
+				4B881D04058980D703FB3688 /* SessionTracker.swift */,
+				105BBEF58B5BCD68DAF9B5FF /* SettingsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -192,6 +246,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F63FEC9E7A68CC9C571E011E /* FTMSProtocolTests.swift in Sources */,
+				038CCCE593474D2FD24283A7 /* ProgramEngineTests.swift in Sources */,
+				307B41C020DAF884A6BA48D1 /* SessionTrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,8 +255,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4370DC21655C01E165209F9C /* CoreDataModel.swift in Sources */,
 				7B2B05437A66646FAD982C53 /* FTMSProtocol.swift in Sources */,
+				D95EAB77BF9954CFCE9CF719 /* HistoryWindow.swift in Sources */,
+				6854371D625334800161CC97 /* MenuBarView.swift in Sources */,
+				B69EB9BF5ACFBC2B67C87C38 /* PersistenceController.swift in Sources */,
+				0211BE07CCA09F4C8A43C503 /* ProgramEditorView.swift in Sources */,
+				9F87803CE7F28D947BB8371F /* ProgramEngine.swift in Sources */,
+				B61249FD9236FDDE0B10D237 /* ProgramSegment+CoreData.swift in Sources */,
+				C8F0A57372C2476389CF7BEF /* SessionDetailView.swift in Sources */,
+				09C7802E342F0717C0A3A215 /* SessionTracker.swift in Sources */,
+				A815DFEA1EF63EA15A49853C /* SettingsManager.swift in Sources */,
+				3B486A33690938F009C03884 /* SettingsView.swift in Sources */,
 				96FE58A86E46C2B08E69B4AE /* TreadmillApp.swift in Sources */,
+				747B594DB58D3B41BAADAEA5 /* TreadmillManager.swift in Sources */,
+				4CE02B9E5BE8914873E163BD /* TreadmillState.swift in Sources */,
+				7537EB993FA43CFAC9B01CF3 /* TrendsView.swift in Sources */,
+				0E23BDDC3321D9C8390C7797 /* WorkoutProgram+CoreData.swift in Sources */,
+				538FE8CBEE5BE41A8A5B566D /* WorkoutSession+CoreData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +371,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -389,7 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

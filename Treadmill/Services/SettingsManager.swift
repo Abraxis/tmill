@@ -29,14 +29,19 @@ final class SettingsManager {
     private var isMerging = false
 
     private init() {
-        // Load from local defaults first
-        self.minSessionDuration = defaults.double(forKey: "minSessionDuration")
-        if minSessionDuration == 0 { minSessionDuration = 300 } // 5 min default
-        self.launchAtLogin = defaults.bool(forKey: "launchAtLogin")
-        self.speedIncrement = defaults.double(forKey: "speedIncrement")
-        if speedIncrement == 0 { speedIncrement = 0.5 }
-        self.inclineIncrement = defaults.double(forKey: "inclineIncrement")
-        if inclineIncrement == 0 { inclineIncrement = 1.0 }
+        // Load from local defaults first — use local vars to avoid didSet during init
+        let d = defaults
+        var msd = d.double(forKey: "minSessionDuration")
+        if msd == 0 { msd = 300 }
+        var si = d.double(forKey: "speedIncrement")
+        if si == 0 { si = 0.5 }
+        var ii = d.double(forKey: "inclineIncrement")
+        if ii == 0 { ii = 1.0 }
+
+        self.minSessionDuration = msd
+        self.launchAtLogin = d.bool(forKey: "launchAtLogin")
+        self.speedIncrement = si
+        self.inclineIncrement = ii
 
         // Merge iCloud values (iCloud wins if present)
         mergeFromCloud()

@@ -20,14 +20,16 @@ final class SessionTrackerTests: XCTestCase {
         let persistence = PersistenceController(inMemory: true)
         let tracker = SessionTracker(state: state, persistence: persistence, minDuration: 0)
 
-        // Start
+        // Start with initial values
         state.isRunning = true
         state.speed = 3.5
-        state.distance = 500
-        state.calories = 50
+        state.distance = 0
+        state.calories = 0
         tracker.check()
 
-        // Simulate some samples
+        // Simulate workout progressing
+        state.distance = 500
+        state.calories = 50
         tracker.recordSample()
         tracker.recordSample()
 

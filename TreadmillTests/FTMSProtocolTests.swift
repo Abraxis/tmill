@@ -10,7 +10,7 @@ final class FTMSProtocolTests: XCTestCase {
         // Speed: 5.00 km/h = 500 = 0x01F4
         let data = Data([0x00, 0x00, 0xF4, 0x01])
         let frame = FTMSProtocol.decodeTreadmillData(data)
-        XCTAssertEqual(frame.speed, 5.0, accuracy: 0.01)
+        XCTAssertEqual(frame.speed!, 5.0, accuracy: 0.01)
     }
 
     func testDecodeAvgSpeed() {
@@ -19,8 +19,8 @@ final class FTMSProtocolTests: XCTestCase {
         // Avg speed: 4.20 km/h = 420 = 0x01A4
         let data = Data([0x02, 0x00, 0x5E, 0x01, 0xA4, 0x01])
         let frame = FTMSProtocol.decodeTreadmillData(data)
-        XCTAssertEqual(frame.speed, 3.5, accuracy: 0.01)
-        XCTAssertEqual(frame.avgSpeed, 4.2, accuracy: 0.01)
+        XCTAssertEqual(frame.speed!, 3.5, accuracy: 0.01)
+        XCTAssertEqual(frame.avgSpeed!, 4.2, accuracy: 0.01)
     }
 
     func testDecodeDistance() {
@@ -39,8 +39,8 @@ final class FTMSProtocolTests: XCTestCase {
         let data = Data([0x09, 0x00, 0x32, 0x00, 0x1C, 0x00])
         let frame = FTMSProtocol.decodeTreadmillData(data)
         XCTAssertNil(frame.speed)
-        XCTAssertEqual(frame.incline, 5.0, accuracy: 0.01)
-        XCTAssertEqual(frame.rampAngle, 2.8, accuracy: 0.01)
+        XCTAssertEqual(frame.incline!, 5.0, accuracy: 0.01)
+        XCTAssertEqual(frame.rampAngle!, 2.8, accuracy: 0.01)
     }
 
     func testDecodeEnergy() {

@@ -34,6 +34,8 @@ targets:
           - iCloud.com.treadmill.app
         com.apple.developer.icloud-services:
           - CloudKit
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
 
   TreadmillTests:
     type: bundle.unit-test

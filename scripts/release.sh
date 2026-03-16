@@ -48,7 +48,7 @@ git push origin main --tags
 echo "==> Creating GitHub release..."
 gh release create "v$VERSION" \
     --title "Treadmill v$VERSION" \
-    --body "$(cat <<ENDOFBODY
+    --notes "$(cat <<ENDOFBODY
 ## Treadmill v$VERSION
 
 macOS menu bar app for controlling the Merach T25 treadmill.

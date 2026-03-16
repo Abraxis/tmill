@@ -20,5 +20,9 @@
     <string>APPL</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Treadmill reads your workout history to avoid duplicates.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Treadmill saves your walking workouts to Apple Health.</string>
 </dict>
 </plist>

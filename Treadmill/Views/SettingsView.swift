@@ -63,7 +63,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
+        .frame(width: 420, height: 520)
         .navigationTitle("Settings")
     }
 }

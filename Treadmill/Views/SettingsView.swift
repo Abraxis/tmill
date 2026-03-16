@@ -14,7 +14,7 @@ struct SettingsView: View {
                 .tabItem { Label("Quick Presets", systemImage: "star") }
                 .tag(1)
         }
-        .frame(width: 450, height: 320)
+        .frame(width: 450, height: 420)
         .navigationTitle("Settings")
     }
 
@@ -84,43 +84,57 @@ struct SettingsView: View {
             .font(.caption.bold())
             .foregroundStyle(.secondary)
             .padding(.horizontal, 16)
-            .padding(.top, 12)
-            .padding(.bottom, 6)
+            .padding(.top, 8)
+            .padding(.bottom, 4)
 
             Divider()
 
-            List {
-                ForEach($settings.quickPresets) { $preset in
-                    HStack(spacing: 0) {
-                        TextField("Name", text: $preset.name)
-                            .textFieldStyle(.plain)
-                            .frame(width: 120)
-
-                        HStack(spacing: 4) {
-                            TextField("", value: $preset.speed, format: .number.precision(.fractionLength(1)))
+            // Preset rows
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach($settings.quickPresets) { $preset in
+                        HStack(spacing: 0) {
+                            TextField("Name", text: $preset.name)
                                 .textFieldStyle(.roundedBorder)
-                                .frame(width: 55)
-                            Text("km/h")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(width: 100)
+                                .frame(width: 120)
 
-                        HStack(spacing: 4) {
-                            TextField("", value: $preset.incline, format: .number.precision(.fractionLength(0)))
-                                .textFieldStyle(.roundedBorder)
-                                .frame(width: 45)
-                            Text("%")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(width: 100)
+                            HStack(spacing: 4) {
+                                TextField("", value: $preset.speed, format: .number.precision(.fractionLength(1)))
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame(width: 55)
+                                Text("km/h")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .frame(width: 100)
 
-                        Spacer()
+                            HStack(spacing: 4) {
+                                TextField("", value: $preset.incline, format: .number.precision(.fractionLength(0)))
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame(width: 45)
+                                Text("%")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .frame(width: 100)
+
+                            Spacer()
+
+                            Button(role: .destructive) {
+                                withAnimation {
+                                    settings.quickPresets.removeAll { $0.id == preset.id }
+                                }
+                            } label: {
+                                Image(systemName: "trash")
+                                    .foregroundStyle(.red.opacity(0.7))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 6)
+
+                        Divider().padding(.horizontal, 16)
                     }
-                }
-                .onDelete { indices in
-                    settings.quickPresets.remove(atOffsets: indices)
                 }
             }
 
@@ -138,11 +152,11 @@ struct SettingsView: View {
 
                 Spacer()
 
-                Text("Presets appear in the menu bar for quick speed/incline changes.")
+                Text("Shown in menu bar for quick changes.")
                     .font(.caption)
                     .foregroundStyle(.tertiary)
             }
-            .padding(12)
+            .padding(10)
         }
     }
 }

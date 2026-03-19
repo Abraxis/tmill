@@ -19,6 +19,7 @@ final class SessionTracker {
     private var inclineSum: Double = 0
     private var inclineSampleCount: Int = 0
     private var sessionStartDistance: Double = 0
+    private var sessionStartElapsed: TimeInterval = 0
     private var sessionStartCalories: Int = 0
     private var gracePeriodTimer: Task<Void, Never>?
     private var wasRunning = false
@@ -47,7 +48,7 @@ final class SessionTracker {
     func recordSample() {
         guard isRecording else { return }
         let sample = WorkoutSession.Sample(
-            time: state.elapsed,
+            time: state.elapsed - sessionStartElapsed,
             speed: state.speed,
             incline: state.incline
         )
@@ -91,6 +92,7 @@ final class SessionTracker {
         isRecording = true
         sessionStartDate = Date()
         sessionStartDistance = state.distance
+        sessionStartElapsed = state.elapsed
         sessionStartCalories = state.calories
         samples = []
         maxSpeed = 0
@@ -101,7 +103,7 @@ final class SessionTracker {
 
     private func stopRecording() {
         isRecording = false
-        let duration = state.elapsed
+        let duration = state.elapsed - sessionStartElapsed
         logger.info("Session recording stopped, duration: \(duration)s")
 
         guard duration >= minDuration else {

@@ -64,7 +64,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         if let button = statusItem.button {
             button.image = NSImage(systemSymbolName: "figure.walk", accessibilityDescription: "MyMill")
             button.imagePosition = .imageLeading
-            button.title = "MyMill"
+            button.title = ""
         }
 
         menu.delegate = self
@@ -204,11 +204,11 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         let connected = t.isConnected
         let running = t.isRunning
 
-        // Status bar button
+        // Status bar button — show speed only when active, otherwise icon only
         if let button = statusItem.button {
             button.title = connected && t.speed > 0
                 ? String(format: " %.1f", t.speed)
-                : " MyMill"
+                : ""
         }
 
         // Status line

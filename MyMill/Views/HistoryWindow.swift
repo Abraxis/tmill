@@ -4,7 +4,6 @@ import CoreData
 
 struct HistoryWindow: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var selectedTab = 0
     @State private var selectedSession: WorkoutSession?
 
     @FetchRequest(
@@ -14,32 +13,63 @@ struct HistoryWindow: View {
     private var sessions: FetchedResults<WorkoutSession>
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            sessionsTab
-                .tabItem { Label("Sessions", systemImage: "list.bullet") }
-                .tag(0)
+        VStack(spacing: 0) {
+            // Overall stats — always visible
+            overallStats
+                .padding()
+                .background(.bar)
 
-            TrendsView()
-                .tabItem { Label("Trends", systemImage: "chart.xyaxis.line") }
-                .tag(1)
-        }
-        .frame(minWidth: 600, minHeight: 400)
-    }
+            Divider()
 
-    private var sessionsTab: some View {
-        HSplitView {
-            sessionList
-                .frame(minWidth: 250)
-            if let session = selectedSession {
-                SessionDetailView(session: session)
-                    .frame(minWidth: 350)
-            } else {
-                Text("Select a session")
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            // Session list + detail
+            HSplitView {
+                sessionList
+                    .frame(minWidth: 180, idealWidth: 220, maxWidth: 280)
+                if let session = selectedSession {
+                    SessionDetailView(session: session)
+                        .frame(minWidth: 450)
+                } else {
+                    Text("Select a session")
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
             }
         }
+        .frame(minWidth: 800, minHeight: 500)
     }
+
+    // MARK: - Overall Stats
+
+    private var overallStats: some View {
+        HStack(spacing: 12) {
+            OverallStatCard(label: "Sessions", value: "\(sessions.count)")
+            OverallStatCard(label: "Distance", value: String(format: "%.1f km", totalDistance))
+            OverallStatCard(label: "Time", value: formatTotalTime)
+            OverallStatCard(label: "Calories", value: "\(totalCalories)")
+            OverallStatCard(label: "Elevation", value: String(format: "%.0f m", totalElevation))
+        }
+    }
+
+    private var totalDistance: Double {
+        sessions.reduce(0) { $0 + $1.distance } / 1000
+    }
+
+    private var totalCalories: Int {
+        sessions.reduce(0) { $0 + Int($1.calories) }
+    }
+
+    private var totalElevation: Double {
+        sessions.reduce(0) { $0 + $1.computedElevationGain }
+    }
+
+    private var formatTotalTime: String {
+        let total = sessions.reduce(0.0) { $0 + $1.duration }
+        let hours = Int(total) / 3600
+        let mins = (Int(total) % 3600) / 60
+        return "\(hours)h \(mins)m"
+    }
+
+    // MARK: - Session List
 
     private var sessionList: some View {
         List(selection: $selectedSession) {
@@ -64,6 +94,26 @@ struct HistoryWindow: View {
     }
 }
 
+private struct OverallStatCard: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(spacing: 2) {
+            Text(value)
+                .font(.title3.bold())
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 4)
+        .background(.quaternary)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+}
+
 private struct SessionRow: View {
     let session: WorkoutSession
 
@@ -71,29 +121,27 @@ private struct SessionRow: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(session.date, style: .date)
-                    .font(.headline)
+                    .font(.subheadline.bold())
                 Spacer()
                 if session.stravaActivityId != nil {
                     Image(systemName: "arrow.up.to.line")
                         .foregroundStyle(.orange)
-                        .font(.caption)
-                        .help("Uploaded to Strava")
+                        .font(.caption2)
                 }
                 if session.heartRateSamples != nil {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(.red)
-                        .font(.caption)
-                        .help("Heart rate data available")
+                        .font(.caption2)
                 }
             }
-            HStack(spacing: 12) {
-                Label(session.durationFormatted, systemImage: "clock")
-                Label(String(format: "%.2f km", session.distanceKm), systemImage: "figure.walk")
-                Label("\(session.calories) cal", systemImage: "flame")
+            HStack(spacing: 8) {
+                Text(session.durationFormatted)
+                Text(String(format: "%.2f km", session.distanceKm))
+                Text("\(session.calories) cal")
             }
             .font(.caption)
             .foregroundStyle(.secondary)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 2)
     }
 }

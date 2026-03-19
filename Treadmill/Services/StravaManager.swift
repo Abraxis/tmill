@@ -297,7 +297,7 @@ final class StravaManager {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] ?? [:]
         let status = json["status"] as? String ?? "unknown"
-        let activityId = json["activity_id"] as? Int64
+        let activityId = (json["activity_id"] as? NSNumber)?.int64Value
         return StravaUploadResult(status: status, activityId: activityId)
     }
 

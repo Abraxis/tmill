@@ -116,7 +116,7 @@ struct SessionDetailView: View {
     private var fetchHeartRateButton: some View {
         Button {
             isFetchingHR = true
-            Task {
+            Task { @MainActor in
                 let endDate = session.date.addingTimeInterval(session.duration)
                 let hrRaw = await HealthKitManager.shared.fetchHeartRateSamples(from: session.date, to: endDate)
                 let hrSamples = hrRaw.map {
@@ -163,7 +163,7 @@ struct SessionDetailView: View {
                 Button {
                     isUploading = true
                     uploadResult = nil
-                    Task {
+                    Task { @MainActor in
                         do {
                             let activityId = try await StravaManager.shared.reuploadSession(session)
                             if let activityId {

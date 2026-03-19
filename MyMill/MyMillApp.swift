@@ -35,6 +35,7 @@ final class AppState {
     var statusBarController: StatusBarController!
 
     init() {
+        persistence.migrateSessionSamples()
         manager = MyMillManager(state: mymill)
         programEngine = ProgramEngine(state: mymill)
         sessionTracker = SessionTracker(

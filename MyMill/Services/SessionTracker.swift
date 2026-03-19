@@ -69,6 +69,10 @@ final class SessionTracker {
 
     private func stopRecording() {
         isRecording = false
+
+        // Trim trailing zero-speed samples from hysteresis
+        samples = WorkoutSession.trimTrailingZeros(from: samples)
+
         let duration = state.elapsed - sessionStartElapsed
         logger.info("Session recording stopped, duration: \(duration)s")
 

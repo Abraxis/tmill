@@ -59,6 +59,34 @@ extension WorkoutSession {
         return Self.calculateElevationGain(from: samples)
     }
 
+    /// Remove trailing zero-speed samples (from hysteresis after treadmill stops)
+    static func trimTrailingZeros(from samples: [Sample]) -> [Sample] {
+        guard !samples.isEmpty else { return samples }
+        var end = samples.count
+        while end > 0 && samples[end - 1].speed <= 0 {
+            end -= 1
+        }
+        return Array(samples[0..<end])
+    }
+
+    /// Extrapolate the initial gap by backfilling from the first non-zero sample
+    static func extrapolateInitialGap(in samples: [Sample], interval: TimeInterval = 2.0) -> [Sample] {
+        guard let firstNonZero = samples.first(where: { $0.speed > 0 }), firstNonZero.time > interval else {
+            return samples
+        }
+        var filled: [Sample] = []
+        var t = 0.0
+        while t < firstNonZero.time {
+            filled.append(Sample(time: t, speed: firstNonZero.speed, incline: firstNonZero.incline))
+            t += interval
+        }
+        // Append original samples starting from the first non-zero
+        if let idx = samples.firstIndex(where: { $0.speed > 0 }) {
+            filled.append(contentsOf: samples[idx...])
+        }
+        return filled
+    }
+
     /// Calculate total vertical climb from time-series samples
     static func calculateElevationGain(from samples: [Sample]) -> Double {
         guard samples.count >= 2 else { return 0 }

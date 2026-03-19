@@ -17,7 +17,7 @@ struct SessionDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 12) {
                 // Summary stats
                 summaryGrid
 
@@ -45,19 +45,17 @@ struct SessionDetailView: View {
     }
 
     private var summaryGrid: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())
-        ], spacing: 12) {
-            StatCard(label: "Duration", value: session.durationFormatted, icon: "clock")
-            StatCard(label: "Distance", value: String(format: "%.2f km", session.distanceKm), icon: "figure.walk")
-            StatCard(label: "Calories", value: "\(session.calories)", icon: "flame")
-            StatCard(label: "Avg Speed", value: String(format: "%.1f km/h", session.avgSpeed), icon: "speedometer")
-            StatCard(label: "Max Speed", value: String(format: "%.1f km/h", session.maxSpeed), icon: "arrow.up")
-            StatCard(label: "Avg Incline", value: String(format: "%.1f%%", session.avgIncline), icon: "arrow.up.right")
-            StatCard(label: "Elevation", value: String(format: "%.0f m", session.computedElevationGain), icon: "mountain.2")
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 4), spacing: 6) {
+            StatCard(label: "Duration", value: session.durationFormatted, icon: "clock", color: .orange)
+            StatCard(label: "Distance", value: String(format: "%.2f km", session.distanceKm), icon: "figure.walk", color: .green)
+            StatCard(label: "Calories", value: "\(session.calories)", icon: "flame", color: .red)
+            StatCard(label: "Avg Speed", value: String(format: "%.1f km/h", session.avgSpeed), icon: "speedometer", color: .blue)
+            StatCard(label: "Max Speed", value: String(format: "%.1f km/h", session.maxSpeed), icon: "arrow.up", color: .cyan)
+            StatCard(label: "Avg Incline", value: String(format: "%.1f%%", session.avgIncline), icon: "arrow.up.right", color: .indigo)
+            StatCard(label: "Elevation", value: String(format: "%.0f m", session.computedElevationGain), icon: "mountain.2", color: .purple)
             if session.avgHeartRate > 0 {
-                StatCard(label: "Avg HR", value: "\(Int(session.avgHeartRate)) bpm", icon: "heart.fill")
-                StatCard(label: "Max HR", value: "\(Int(session.maxHeartRate)) bpm", icon: "bolt.heart.fill")
+                StatCard(label: "Avg HR", value: "\(Int(session.avgHeartRate)) bpm", icon: "heart.fill", color: .pink)
+                StatCard(label: "Max HR", value: "\(Int(session.maxHeartRate)) bpm", icon: "bolt.heart.fill", color: .red)
             }
         }
     }
@@ -210,20 +208,26 @@ private struct StatCard: View {
     let label: String
     let value: String
     let icon: String
+    let color: Color
 
     var body: some View {
-        VStack(spacing: 4) {
+        HStack(spacing: 4) {
             Image(systemName: icon)
-                .foregroundStyle(.secondary)
-            Text(value)
-                .font(.title3.bold())
-            Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(color)
+                .frame(width: 14)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(value)
+                    .font(.caption.bold())
+                Text(label)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
         }
-        .frame(maxWidth: .infinity)
-        .padding(12)
-        .background(.quaternary)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 3)
+        .padding(.horizontal, 6)
+        .background(color.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 5))
     }
 }

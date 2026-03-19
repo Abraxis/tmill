@@ -16,7 +16,8 @@ struct HistoryWindow: View {
         VStack(spacing: 0) {
             // Overall stats — always visible
             overallStats
-                .padding()
+                .padding(.horizontal)
+                .padding(.vertical, 6)
                 .background(.bar)
 
             Divider()
@@ -35,18 +36,18 @@ struct HistoryWindow: View {
                 }
             }
         }
-        .frame(minWidth: 800, minHeight: 500)
+        .frame(minWidth: 800, minHeight: 700)
     }
 
     // MARK: - Overall Stats
 
     private var overallStats: some View {
-        HStack(spacing: 12) {
-            OverallStatCard(label: "Sessions", value: "\(sessions.count)")
-            OverallStatCard(label: "Distance", value: String(format: "%.1f km", totalDistance))
-            OverallStatCard(label: "Time", value: formatTotalTime)
-            OverallStatCard(label: "Calories", value: "\(totalCalories)")
-            OverallStatCard(label: "Elevation", value: String(format: "%.0f m", totalElevation))
+        HStack(spacing: 8) {
+            OverallStatCard(label: "Sessions", value: "\(sessions.count)", icon: "figure.walk", color: .blue)
+            OverallStatCard(label: "Distance", value: String(format: "%.1f km", totalDistance), icon: "map", color: .green)
+            OverallStatCard(label: "Time", value: formatTotalTime, icon: "clock", color: .orange)
+            OverallStatCard(label: "Calories", value: "\(totalCalories)", icon: "flame", color: .red)
+            OverallStatCard(label: "Elevation", value: String(format: "%.0f m", totalElevation), icon: "mountain.2", color: .purple)
         }
     }
 
@@ -97,20 +98,28 @@ struct HistoryWindow: View {
 private struct OverallStatCard: View {
     let label: String
     let value: String
+    let icon: String
+    let color: Color
 
     var body: some View {
-        VStack(spacing: 2) {
-            Text(value)
-                .font(.title3.bold())
-            Text(label)
+        HStack(spacing: 5) {
+            Image(systemName: icon)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(color)
+                .frame(width: 14)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(value)
+                    .font(.callout.bold())
+                Text(label)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
-        .padding(.horizontal, 4)
-        .background(.quaternary)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 4)
+        .padding(.horizontal, 6)
+        .background(color.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 6))
     }
 }
 

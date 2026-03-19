@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build Treadmill.app for release
+# Build MyMill.app for release
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -10,10 +10,10 @@ echo "==> Generating Xcode project..."
 cd "$PROJECT_DIR"
 xcodegen generate
 
-echo "==> Building Treadmill.app (Release)..."
+echo "==> Building MyMill.app (Release)..."
 xcodebuild build \
-    -project Treadmill.xcodeproj \
-    -scheme Treadmill \
+    -project MyMill.xcodeproj \
+    -scheme MyMill \
     -configuration Release \
     -destination 'platform=macOS' \
     SYMROOT="$BUILD_DIR" \

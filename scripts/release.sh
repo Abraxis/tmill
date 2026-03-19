@@ -24,7 +24,7 @@ echo "==> Releasing MyMill v$VERSION"
 
 # Update version in Info.plist
 cd "$PROJECT_DIR"
-sed -i '' "s|<string>[0-9]*\.[0-9]*\.[0-9]*</string>|<string>$VERSION</string>|" Treadmill/Info.plist
+sed -i '' "s|<string>[0-9]*\.[0-9]*\.[0-9]*</string>|<string>$VERSION</string>|" MyMill/Info.plist
 
 # Build
 echo "==> Building..."
@@ -67,4 +67,4 @@ ENDOFBODY
 
 echo ""
 echo "==> Release v$VERSION published!"
-echo "    https://github.com/Abraxis/tmill/releases/tag/v$VERSION"
+echo "    https://github.com/Abraxis/mymill/releases/tag/v$VERSION"

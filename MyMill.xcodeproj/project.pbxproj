@@ -1,0 +1,534 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		056F2F5B2E744653F4B713E4 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5A843203EA9DFC5A188F98 /* PersistenceController.swift */; };
+		0C298FF178E34C2110F97401 /* WorkoutSession+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80671A3EA14B50006BAAD54 /* WorkoutSession+CoreData.swift */; };
+		128688B4B9FBEF32439C79F7 /* FTMSProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447F2A03459E0AF2B40D9BEF /* FTMSProtocolTests.swift */; };
+		26B41EA4753F4904AC43039F /* HistoryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C4D9D2DE75156F228C3915 /* HistoryWindow.swift */; };
+		30D32C5CF6871DD6CA544F1D /* MyMillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF3114BEAF5F759C2C9F76 /* MyMillManager.swift */; };
+		385E6002E92D1321D707813A /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA305B5DE8AABD9F09E562F3 /* HealthKitManager.swift */; };
+		39330AAAE200706C3BE35A7F /* ProgramSegment+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF828A021062164836348AF0 /* ProgramSegment+CoreData.swift */; };
+		44AB7DE5DCE1066326BB3094 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B339171AFE87BD7BFA978FE7 /* SettingsView.swift */; };
+		485F1629DDFEF95EAF020468 /* ProgramEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6E55F4FFD56D7E915B55DB /* ProgramEditorView.swift */; };
+		69F6DA57AD80771FEA2C54E7 /* MyMillState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB37F2F5CE84C4934BC2E5 /* MyMillState.swift */; };
+		758606A601113B061B80ACD4 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D896689806EB2C86FC9B8CB /* SessionDetailView.swift */; };
+		7CB27405ACAD5EF229C492A3 /* MyMillStateElevationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D59F86F22CA7CBD0FFC2F4B /* MyMillStateElevationTests.swift */; };
+		7E00AF819DBD76D6EEF210E5 /* SessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7057231A22B1EADC33FDBB4B /* SessionTracker.swift */; };
+		81E1CC332CC4A96B8006FA47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 250CBFCE37408748933AC404 /* Assets.xcassets */; };
+		8E52449DC3CA0455D5AF981D /* MyMillApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC768F4B257742F7B6DDC1 /* MyMillApp.swift */; };
+		9C75D71CF396DDE7EBA20DE6 /* FTMSProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F305DE0F02EB9C9E4D3FDE48 /* FTMSProtocol.swift */; };
+		A72C55FCB80529EA2D9CC938 /* TrendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EA6985F4066C4F4A92DB3F /* TrendsView.swift */; };
+		B1B39908FDBE62CB3436C750 /* StravaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A927A91223F570959EBC8962 /* StravaManager.swift */; };
+		BD66785E1B1528B56C0958E3 /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BD809BA4F1141E1D1A6B50 /* CoreDataModel.swift */; };
+		C7482BC77E2E693F1BAF1BD2 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83C466A2B6EE5CBF16304C5 /* SettingsManager.swift */; };
+		CA366C2854BA8661D3738C9C /* SessionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6937D446E6EE330B0BA800 /* SessionTrackerTests.swift */; };
+		DEBFF4870DB98D7FBB623BC3 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99930705742ADE41472DB669 /* StatusBarController.swift */; };
+		E3BDC91CE536A4EFB3B434B9 /* WorkoutProgram+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31DC0AB0673D4806FCC6B5 /* WorkoutProgram+CoreData.swift */; };
+		E62450D49B666D197A62245A /* TCXGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F48FBE0BD695DC77A6A7430 /* TCXGenerator.swift */; };
+		EA2A32CD754FA56E9AFE5597 /* ProgramEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14AEB086B621399A3175713 /* ProgramEngine.swift */; };
+		EFBCA0662FF59170041A19E2 /* ProgramEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EDB1B5B9D35397A8E431ECC /* ProgramEngineTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B9AECF91C4FCE38B1D153D69 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2EE5303FE46E6CC66BDEE9E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D47F7B2E4665A447B3826B3;
+			remoteInfo = MyMill;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0D896689806EB2C86FC9B8CB /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		1B6E55F4FFD56D7E915B55DB /* ProgramEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEditorView.swift; sourceTree = "<group>"; };
+		250CBFCE37408748933AC404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A31DC0AB0673D4806FCC6B5 /* WorkoutProgram+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutProgram+CoreData.swift"; sourceTree = "<group>"; };
+		447F2A03459E0AF2B40D9BEF /* FTMSProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSProtocolTests.swift; sourceTree = "<group>"; };
+		4EDB1B5B9D35397A8E431ECC /* ProgramEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEngineTests.swift; sourceTree = "<group>"; };
+		4F5A843203EA9DFC5A188F98 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		56BD809BA4F1141E1D1A6B50 /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
+		5D59F86F22CA7CBD0FFC2F4B /* MyMillStateElevationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMillStateElevationTests.swift; sourceTree = "<group>"; };
+		7057231A22B1EADC33FDBB4B /* SessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTracker.swift; sourceTree = "<group>"; };
+		80C4D9D2DE75156F228C3915 /* HistoryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryWindow.swift; sourceTree = "<group>"; };
+		93D2D6256E3BC27650C00460 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		99930705742ADE41472DB669 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		9F48FBE0BD695DC77A6A7430 /* TCXGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCXGenerator.swift; sourceTree = "<group>"; };
+		A927A91223F570959EBC8962 /* StravaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaManager.swift; sourceTree = "<group>"; };
+		A9BF3114BEAF5F759C2C9F76 /* MyMillManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMillManager.swift; sourceTree = "<group>"; };
+		B24810A91BD8B48D37BCA3B2 /* MyMill.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyMill.entitlements; sourceTree = "<group>"; };
+		B339171AFE87BD7BFA978FE7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C80671A3EA14B50006BAAD54 /* WorkoutSession+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutSession+CoreData.swift"; sourceTree = "<group>"; };
+		C83C466A2B6EE5CBF16304C5 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		D45D76A7D24DC5B7058FA201 /* MyMillTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyMillTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7D229721E769470981857D3 /* MyMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA305B5DE8AABD9F09E562F3 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		DB6937D446E6EE330B0BA800 /* SessionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTrackerTests.swift; sourceTree = "<group>"; };
+		E14AEB086B621399A3175713 /* ProgramEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEngine.swift; sourceTree = "<group>"; };
+		E3DC768F4B257742F7B6DDC1 /* MyMillApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMillApp.swift; sourceTree = "<group>"; };
+		F305DE0F02EB9C9E4D3FDE48 /* FTMSProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSProtocol.swift; sourceTree = "<group>"; };
+		F8EA6985F4066C4F4A92DB3F /* TrendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsView.swift; sourceTree = "<group>"; };
+		FEFB37F2F5CE84C4934BC2E5 /* MyMillState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMillState.swift; sourceTree = "<group>"; };
+		FF828A021062164836348AF0 /* ProgramSegment+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProgramSegment+CoreData.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		64E201D408927A0C732AC227 = {
+			isa = PBXGroup;
+			children = (
+				E0E1C58D71617860E6CBFEDA /* MyMill */,
+				AA83B1A50891656009BAA2F9 /* MyMillTests */,
+				DD4242E918FFD9B837ECAC75 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		74740C3EC0F6596AC21E3424 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				56BD809BA4F1141E1D1A6B50 /* CoreDataModel.swift */,
+				FEFB37F2F5CE84C4934BC2E5 /* MyMillState.swift */,
+				FF828A021062164836348AF0 /* ProgramSegment+CoreData.swift */,
+				3A31DC0AB0673D4806FCC6B5 /* WorkoutProgram+CoreData.swift */,
+				C80671A3EA14B50006BAAD54 /* WorkoutSession+CoreData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AA83B1A50891656009BAA2F9 /* MyMillTests */ = {
+			isa = PBXGroup;
+			children = (
+				447F2A03459E0AF2B40D9BEF /* FTMSProtocolTests.swift */,
+				5D59F86F22CA7CBD0FFC2F4B /* MyMillStateElevationTests.swift */,
+				4EDB1B5B9D35397A8E431ECC /* ProgramEngineTests.swift */,
+				DB6937D446E6EE330B0BA800 /* SessionTrackerTests.swift */,
+			);
+			path = MyMillTests;
+			sourceTree = "<group>";
+		};
+		B10CA1937B2F404591DD3227 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				80C4D9D2DE75156F228C3915 /* HistoryWindow.swift */,
+				1B6E55F4FFD56D7E915B55DB /* ProgramEditorView.swift */,
+				0D896689806EB2C86FC9B8CB /* SessionDetailView.swift */,
+				B339171AFE87BD7BFA978FE7 /* SettingsView.swift */,
+				F8EA6985F4066C4F4A92DB3F /* TrendsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DC3B468CD90CC4D70D8BA2C4 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				F305DE0F02EB9C9E4D3FDE48 /* FTMSProtocol.swift */,
+				A9BF3114BEAF5F759C2C9F76 /* MyMillManager.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		DD4242E918FFD9B837ECAC75 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D7D229721E769470981857D3 /* MyMill.app */,
+				D45D76A7D24DC5B7058FA201 /* MyMillTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E0E1C58D71617860E6CBFEDA /* MyMill */ = {
+			isa = PBXGroup;
+			children = (
+				250CBFCE37408748933AC404 /* Assets.xcassets */,
+				93D2D6256E3BC27650C00460 /* Info.plist */,
+				B24810A91BD8B48D37BCA3B2 /* MyMill.entitlements */,
+				E3DC768F4B257742F7B6DDC1 /* MyMillApp.swift */,
+				99930705742ADE41472DB669 /* StatusBarController.swift */,
+				DC3B468CD90CC4D70D8BA2C4 /* Bluetooth */,
+				74740C3EC0F6596AC21E3424 /* Models */,
+				EE87E654D53DE7CE773AA78C /* Services */,
+				B10CA1937B2F404591DD3227 /* Views */,
+			);
+			path = MyMill;
+			sourceTree = "<group>";
+		};
+		EE87E654D53DE7CE773AA78C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DA305B5DE8AABD9F09E562F3 /* HealthKitManager.swift */,
+				4F5A843203EA9DFC5A188F98 /* PersistenceController.swift */,
+				E14AEB086B621399A3175713 /* ProgramEngine.swift */,
+				7057231A22B1EADC33FDBB4B /* SessionTracker.swift */,
+				C83C466A2B6EE5CBF16304C5 /* SettingsManager.swift */,
+				A927A91223F570959EBC8962 /* StravaManager.swift */,
+				9F48FBE0BD695DC77A6A7430 /* TCXGenerator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2D47F7B2E4665A447B3826B3 /* MyMill */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44FC5C3A39C089059BB32683 /* Build configuration list for PBXNativeTarget "MyMill" */;
+			buildPhases = (
+				45333C8289B3C76B80F8BBE4 /* Sources */,
+				3CFDED44088697087D8FB7F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyMill;
+			packageProductDependencies = (
+			);
+			productName = MyMill;
+			productReference = D7D229721E769470981857D3 /* MyMill.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8FDA32A9ABE35973D2351B79 /* MyMillTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B38881D7FCFE698830C5A022 /* Build configuration list for PBXNativeTarget "MyMillTests" */;
+			buildPhases = (
+				AA7817E43DFC7B1ADFCF27D9 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				03A01E1318BD4945872B861D /* PBXTargetDependency */,
+			);
+			name = MyMillTests;
+			packageProductDependencies = (
+			);
+			productName = MyMillTests;
+			productReference = D45D76A7D24DC5B7058FA201 /* MyMillTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B2EE5303FE46E6CC66BDEE9E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					2D47F7B2E4665A447B3826B3 = {
+						DevelopmentTeam = 7QYJGN67LC;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 3E40B8F2DD9EC7D28B2D2BF3 /* Build configuration list for PBXProject "MyMill" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 64E201D408927A0C732AC227;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DD4242E918FFD9B837ECAC75 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2D47F7B2E4665A447B3826B3 /* MyMill */,
+				8FDA32A9ABE35973D2351B79 /* MyMillTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3CFDED44088697087D8FB7F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81E1CC332CC4A96B8006FA47 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		45333C8289B3C76B80F8BBE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD66785E1B1528B56C0958E3 /* CoreDataModel.swift in Sources */,
+				9C75D71CF396DDE7EBA20DE6 /* FTMSProtocol.swift in Sources */,
+				385E6002E92D1321D707813A /* HealthKitManager.swift in Sources */,
+				26B41EA4753F4904AC43039F /* HistoryWindow.swift in Sources */,
+				8E52449DC3CA0455D5AF981D /* MyMillApp.swift in Sources */,
+				30D32C5CF6871DD6CA544F1D /* MyMillManager.swift in Sources */,
+				69F6DA57AD80771FEA2C54E7 /* MyMillState.swift in Sources */,
+				056F2F5B2E744653F4B713E4 /* PersistenceController.swift in Sources */,
+				485F1629DDFEF95EAF020468 /* ProgramEditorView.swift in Sources */,
+				EA2A32CD754FA56E9AFE5597 /* ProgramEngine.swift in Sources */,
+				39330AAAE200706C3BE35A7F /* ProgramSegment+CoreData.swift in Sources */,
+				758606A601113B061B80ACD4 /* SessionDetailView.swift in Sources */,
+				7E00AF819DBD76D6EEF210E5 /* SessionTracker.swift in Sources */,
+				C7482BC77E2E693F1BAF1BD2 /* SettingsManager.swift in Sources */,
+				44AB7DE5DCE1066326BB3094 /* SettingsView.swift in Sources */,
+				DEBFF4870DB98D7FBB623BC3 /* StatusBarController.swift in Sources */,
+				B1B39908FDBE62CB3436C750 /* StravaManager.swift in Sources */,
+				E62450D49B666D197A62245A /* TCXGenerator.swift in Sources */,
+				A72C55FCB80529EA2D9CC938 /* TrendsView.swift in Sources */,
+				E3BDC91CE536A4EFB3B434B9 /* WorkoutProgram+CoreData.swift in Sources */,
+				0C298FF178E34C2110F97401 /* WorkoutSession+CoreData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA7817E43DFC7B1ADFCF27D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				128688B4B9FBEF32439C79F7 /* FTMSProtocolTests.swift in Sources */,
+				7CB27405ACAD5EF229C492A3 /* MyMillStateElevationTests.swift in Sources */,
+				EFBCA0662FF59170041A19E2 /* ProgramEngineTests.swift in Sources */,
+				CA366C2854BA8661D3738C9C /* SessionTrackerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		03A01E1318BD4945872B861D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D47F7B2E4665A447B3826B3 /* MyMill */;
+			targetProxy = B9AECF91C4FCE38B1D153D69 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		50D79BD14D837F72D1742A05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		573B1CFB9E978EF36D3B6281 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		692EB28A4F2739EDAC433FAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mymill.MyMillTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyMill.app/Contents/MacOS/MyMill";
+			};
+			name = Debug;
+		};
+		6944B332C3E251F1D53959A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyMill/MyMill.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7QYJGN67LC;
+				INFOPLIST_FILE = MyMill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mymill.app;
+				PRODUCT_MODULE_NAME = MyMill;
+				PRODUCT_NAME = MyMill;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8CFE86DE63EEA796BB6F3C11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyMill/MyMill.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7QYJGN67LC;
+				INFOPLIST_FILE = MyMill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mymill.app;
+				PRODUCT_MODULE_NAME = MyMill;
+				PRODUCT_NAME = MyMill;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AD04E701A71B2257B343DEB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mymill.MyMillTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyMill.app/Contents/MacOS/MyMill";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3E40B8F2DD9EC7D28B2D2BF3 /* Build configuration list for PBXProject "MyMill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				573B1CFB9E978EF36D3B6281 /* Debug */,
+				50D79BD14D837F72D1742A05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		44FC5C3A39C089059BB32683 /* Build configuration list for PBXNativeTarget "MyMill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6944B332C3E251F1D53959A0 /* Debug */,
+				8CFE86DE63EEA796BB6F3C11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B38881D7FCFE698830C5A022 /* Build configuration list for PBXNativeTarget "MyMillTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				692EB28A4F2739EDAC433FAB /* Debug */,
+				AD04E701A71B2257B343DEB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B2EE5303FE46E6CC66BDEE9E /* Project object */;
+}

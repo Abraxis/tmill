@@ -17,8 +17,8 @@ xcodegen generate
 # Build
 echo "==> Building..."
 xcodebuild build \
-    -project Treadmill.xcodeproj \
-    -scheme Treadmill \
+    -project MyMill.xcodeproj \
+    -scheme MyMill \
     -configuration Release \
     -destination 'platform=macOS' \
     SYMROOT="$BUILD_DIR" \

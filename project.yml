@@ -1,6 +1,6 @@
-name: Treadmill
+name: MyMill
 options:
-  bundleIdPrefix: com.treadmill
+  bundleIdPrefix: com.mymill
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "15.0"
@@ -12,24 +12,24 @@ settings:
     MACOSX_DEPLOYMENT_TARGET: "14.0"
 
 targets:
-  Treadmill:
+  MyMill:
     type: application
     platform: macOS
     sources:
-      - Treadmill
+      - MyMill
     settings:
       base:
-        INFOPLIST_FILE: Treadmill/Info.plist
-        CODE_SIGN_ENTITLEMENTS: Treadmill/Treadmill.entitlements
+        INFOPLIST_FILE: MyMill/Info.plist
+        CODE_SIGN_ENTITLEMENTS: MyMill/MyMill.entitlements
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 7QYJGN67LC
         PRODUCT_BUNDLE_IDENTIFIER: com.mymill.app
         PRODUCT_NAME: MyMill
-        PRODUCT_MODULE_NAME: Treadmill
+        PRODUCT_MODULE_NAME: MyMill
         COMBINE_HIDPI_IMAGES: true
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     entitlements:
-      path: Treadmill/Treadmill.entitlements
+      path: MyMill/MyMill.entitlements
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.device.bluetooth: true
@@ -37,24 +37,24 @@ targets:
         com.apple.security.network.client: true
         com.apple.security.network.server: true
 
-  TreadmillTests:
+  MyMillTests:
     type: bundle.unit-test
     platform: macOS
     sources:
-      - TreadmillTests
+      - MyMillTests
     dependencies:
-      - target: Treadmill
+      - target: MyMill
     settings:
       base:
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MyMill.app/Contents/MacOS/MyMill"
         BUNDLE_LOADER: "$(TEST_HOST)"
 
 schemes:
-  Treadmill:
+  MyMill:
     build:
       targets:
-        Treadmill: all
-        TreadmillTests: [test]
+        MyMill: all
+        MyMillTests: [test]
     test:
       targets:
-        - TreadmillTests
+        - MyMillTests

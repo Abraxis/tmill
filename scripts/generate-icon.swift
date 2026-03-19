@@ -162,7 +162,7 @@ func generateIcon(size: Int) -> NSImage {
 
 // Generate all sizes
 let outputDir = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] :
-    FileManager.default.currentDirectoryPath + "/Treadmill/Assets.xcassets/AppIcon.appiconset"
+    FileManager.default.currentDirectoryPath + "/MyMill/Assets.xcassets/AppIcon.appiconset"
 
 let sizes = [16, 32, 64, 128, 256, 512, 1024]
 

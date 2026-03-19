@@ -56,7 +56,7 @@ final class StravaManager {
         durationSeconds: Double,
         distanceMeters: Double,
         calories: Int,
-        speedSamples: [(timeOffset: TimeInterval, speed: Double, distance: Double)]
+        speedSamples: [(timeOffset: TimeInterval, speed: Double, distance: Double, altitude: Double)]
     ) async {
         guard syncEnabled, isConnected else { return }
 
@@ -75,7 +75,8 @@ final class StravaManager {
                 TCXGenerator.TrackPoint(
                     timeOffset: sample.timeOffset,
                     distanceMeters: sample.distance,
-                    speedMPS: sample.speed / 3.6
+                    speedMPS: sample.speed / 3.6,
+                    altitudeMeters: sample.altitude > 0 ? sample.altitude : nil
                 )
             }
         )
@@ -91,6 +92,43 @@ final class StravaManager {
             logger.info("Strava upload status: \(status)")
         } catch {
             logger.error("Strava upload failed: \(error.localizedDescription)")
+        }
+    }
+
+    /// Re-upload a previously saved session to Strava
+    func reuploadSession(_ session: WorkoutSession) async throws {
+        guard isConnected else { throw StravaError.uploadFailed("Not connected to Strava") }
+
+        guard let token = await getValidToken() else {
+            throw StravaError.uploadFailed("No valid Strava token")
+        }
+
+        let samples = SessionTracker.buildStravaSamples(from: session.samples)
+
+        let tcx = TCXGenerator.generate(
+            startDate: session.date,
+            totalTimeSeconds: session.duration,
+            totalDistanceMeters: session.distance,
+            calories: Int(session.calories),
+            trackPoints: samples.map { sample in
+                TCXGenerator.TrackPoint(
+                    timeOffset: sample.timeOffset,
+                    distanceMeters: sample.distance,
+                    speedMPS: sample.speed / 3.6,
+                    altitudeMeters: sample.altitude > 0 ? sample.altitude : nil
+                )
+            }
+        )
+
+        let uploadId = try await uploadTCX(tcx, token: token, name: "Treadmill Walk")
+        logger.info("Strava re-upload submitted: \(uploadId)")
+
+        try? await Task.sleep(for: .seconds(3))
+        let status = try await checkUploadStatus(uploadId, token: token)
+        logger.info("Strava re-upload status: \(status)")
+
+        if status.contains("error") {
+            throw StravaError.uploadFailed(status)
         }
     }
 

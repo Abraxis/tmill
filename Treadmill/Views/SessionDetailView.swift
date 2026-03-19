@@ -5,6 +5,14 @@ import Charts
 struct SessionDetailView: View {
     let session: WorkoutSession
 
+    @State private var isUploading = false
+    @State private var uploadResult: UploadResult?
+
+    private enum UploadResult {
+        case success
+        case failure(String)
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -16,8 +24,55 @@ struct SessionDetailView: View {
                     speedChart
                     inclineChart
                 }
+
+                // Re-upload to Strava
+                if StravaManager.shared.isConnected && !session.samples.isEmpty {
+                    stravaReuploadButton
+                }
             }
             .padding()
+        }
+    }
+
+    private var stravaReuploadButton: some View {
+        HStack {
+            Button {
+                isUploading = true
+                uploadResult = nil
+                Task {
+                    do {
+                        try await StravaManager.shared.reuploadSession(session)
+                        uploadResult = .success
+                    } catch {
+                        uploadResult = .failure(error.localizedDescription)
+                    }
+                    isUploading = false
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    if isUploading {
+                        ProgressView().controlSize(.small)
+                    } else {
+                        Image(systemName: "arrow.up.to.line")
+                    }
+                    Text("Upload to Strava")
+                }
+            }
+            .disabled(isUploading)
+
+            if let result = uploadResult {
+                switch result {
+                case .success:
+                    Label("Uploaded", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .font(.caption)
+                case .failure(let msg):
+                    Label(msg, systemImage: "xmark.circle.fill")
+                        .foregroundStyle(.red)
+                        .font(.caption)
+                        .lineLimit(1)
+                }
+            }
         }
     }
 
@@ -31,6 +86,7 @@ struct SessionDetailView: View {
             StatCard(label: "Avg Speed", value: String(format: "%.1f km/h", session.avgSpeed), icon: "speedometer")
             StatCard(label: "Max Speed", value: String(format: "%.1f km/h", session.maxSpeed), icon: "arrow.up")
             StatCard(label: "Avg Incline", value: String(format: "%.1f%%", session.avgIncline), icon: "arrow.up.right")
+            StatCard(label: "Elevation", value: String(format: "%.0f m", session.computedElevationGain), icon: "mountain.2")
         }
     }
 

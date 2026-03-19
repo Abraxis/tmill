@@ -13,6 +13,7 @@ public class WorkoutSession: NSManagedObject {
     @NSManaged public var maxSpeed: Double
     @NSManaged public var avgIncline: Double
     @NSManaged public var speedSamples: Data?
+    @NSManaged public var elevationGain: Double
 }
 
 extension WorkoutSession {
@@ -36,5 +37,28 @@ extension WorkoutSession {
 
     var distanceKm: Double {
         distance / 1000.0
+    }
+
+    /// Elevation gain in meters — uses stored value if available, otherwise computes from samples
+    var computedElevationGain: Double {
+        if elevationGain > 0 { return elevationGain }
+        return Self.calculateElevationGain(from: samples)
+    }
+
+    /// Calculate total vertical climb from time-series samples
+    static func calculateElevationGain(from samples: [Sample]) -> Double {
+        guard samples.count >= 2 else { return 0 }
+        var total = 0.0
+        for i in 1..<samples.count {
+            let dt = samples[i].time - samples[i - 1].time
+            guard dt > 0 else { continue }
+            let incline = samples[i].incline
+            guard incline > 0 else { continue }
+            // distance in meters for this interval
+            let distMeters = (samples[i].speed / 3.6) * dt
+            // vertical rise: grade = incline% / 100
+            total += distMeters * (incline / 100.0)
+        }
+        return total
     }
 }

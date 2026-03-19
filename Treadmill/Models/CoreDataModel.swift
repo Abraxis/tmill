@@ -55,10 +55,15 @@ enum CoreDataModel {
         sessionSpeedSamples.attributeType = .binaryDataAttributeType
         sessionSpeedSamples.isOptional = true
 
+        let sessionElevationGain = NSAttributeDescription()
+        sessionElevationGain.name = "elevationGain"
+        sessionElevationGain.attributeType = .doubleAttributeType
+        sessionElevationGain.defaultValue = 0.0
+
         session.properties = [
             sessionId, sessionDate, sessionDuration, sessionDistance,
             sessionCalories, sessionAvgSpeed, sessionMaxSpeed,
-            sessionAvgIncline, sessionSpeedSamples
+            sessionAvgIncline, sessionSpeedSamples, sessionElevationGain
         ]
 
         // MARK: - WorkoutProgram Entity

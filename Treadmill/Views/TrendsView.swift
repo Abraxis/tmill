@@ -36,6 +36,7 @@ struct TrendsView: View {
             TrendStatCard(label: "Total Distance", value: String(format: "%.1f km", totalDistance))
             TrendStatCard(label: "Total Time", value: formatTotalTime)
             TrendStatCard(label: "Total Calories", value: "\(totalCalories)")
+            TrendStatCard(label: "Total Elevation", value: String(format: "%.0f m", totalElevation))
         }
     }
 
@@ -45,6 +46,10 @@ struct TrendsView: View {
 
     private var totalCalories: Int {
         sessions.reduce(0) { $0 + Int($1.calories) }
+    }
+
+    private var totalElevation: Double {
+        sessions.reduce(0) { $0 + $1.computedElevationGain }
     }
 
     private var formatTotalTime: String {

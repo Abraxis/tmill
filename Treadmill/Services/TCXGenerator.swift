@@ -5,6 +5,7 @@ enum TCXGenerator {
         let timeOffset: TimeInterval   // seconds from start
         let distanceMeters: Double      // cumulative
         let speedMPS: Double?           // meters per second
+        let altitudeMeters: Double?     // cumulative elevation
     }
 
     static func generate(
@@ -49,6 +50,10 @@ enum TCXGenerator {
             xml += "<Trackpoint>\n"
             xml += "<Time>\(timeStr)</Time>\n"
             xml += "<DistanceMeters>\(String(format: "%.1f", point.distanceMeters))</DistanceMeters>\n"
+
+            if let alt = point.altitudeMeters {
+                xml += "<AltitudeMeters>\(String(format: "%.1f", alt))</AltitudeMeters>\n"
+            }
 
             if let speed = point.speedMPS, speed > 0 {
                 xml += "<Extensions><ax:TPX><ax:Speed>\(String(format: "%.2f", speed))</ax:Speed></ax:TPX></Extensions>\n"

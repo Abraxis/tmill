@@ -112,16 +112,25 @@ final class SessionTracker {
         saveSession(duration: duration)
     }
 
-    private func buildStravaSamples() -> [(timeOffset: TimeInterval, speed: Double, distance: Double)] {
+    private func buildStravaSamples() -> [(timeOffset: TimeInterval, speed: Double, distance: Double, altitude: Double)] {
+        Self.buildStravaSamples(from: samples)
+    }
+
+    static func buildStravaSamples(from samples: [WorkoutSession.Sample]) -> [(timeOffset: TimeInterval, speed: Double, distance: Double, altitude: Double)] {
         var cumDist = 0.0
+        var cumAlt = 0.0
         var lastTime = 0.0
         return samples.map { sample in
             let dt = sample.time - lastTime
             if dt > 0 {
-                cumDist += (sample.speed / 3.6) * dt  // km/h to m/s * seconds = meters
+                let segDist = (sample.speed / 3.6) * dt  // km/h to m/s * seconds = meters
+                cumDist += segDist
+                if sample.incline > 0 {
+                    cumAlt += segDist * (sample.incline / 100.0)
+                }
             }
             lastTime = sample.time
-            return (timeOffset: sample.time, speed: sample.speed, distance: cumDist)
+            return (timeOffset: sample.time, speed: sample.speed, distance: cumDist, altitude: cumAlt)
         }
     }
 
@@ -132,6 +141,7 @@ final class SessionTracker {
         let calories = Int32(state.calories - sessionStartCalories)
         let avgSpeed = state.avgSpeed
         let avgIncline = inclineSampleCount > 0 ? inclineSum / Double(inclineSampleCount) : 0
+        let elevationGain = WorkoutSession.calculateElevationGain(from: samples)
 
         // Save to Core Data
         let context = persistence.viewContext
@@ -144,6 +154,7 @@ final class SessionTracker {
         session.avgSpeed = avgSpeed
         session.maxSpeed = maxSpeed
         session.avgIncline = avgIncline
+        session.elevationGain = elevationGain
         session.speedSamples = try? JSONEncoder().encode(samples)
 
         persistence.save()

@@ -183,7 +183,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         settingsItem.title = "Settings..."
         settingsItem.keyEquivalent = ","
         settingsItem.keyEquivalentModifierMask = .command
-        wireAction(settingsItem) { [weak self] in self?.activateAndOpen("Settings") }
+        wireAction(settingsItem) {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        }
         menu.addItem(settingsItem)
 
         menu.addItem(NSMenuItem.separator())

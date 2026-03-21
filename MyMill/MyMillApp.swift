@@ -15,11 +15,9 @@ struct MyMillApp: App {
                 .environment(\.managedObjectContext, appState.persistence.viewContext)
         }
 
-        Window("Settings", id: "settings") {
+        Settings {
             SettingsView()
-                .fixedSize()
         }
-        .windowResizability(.contentSize)
     }
 }
 

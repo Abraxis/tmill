@@ -23,6 +23,7 @@ final class MyMillState {
     var targetIncline: Double = 0
     var calories: Int = 0
     var isRunning: Bool = false
+    var isPaused: Bool = false
     var hasControl: Bool = false
     var deviceName: String = ""
     var lastError: String?
@@ -32,6 +33,13 @@ final class MyMillState {
         return lastError
     }
     var elevationGain: Double = 0
+
+    /// Reset elevation tracking for a fresh session (not resume)
+    func resetElevationTracking() {
+        elevationGain = 0
+        lastDistance = 0
+        wasRunning = false
+    }
 
     /// Count of consecutive zero-speed frames (hysteresis for isRunning)
     private var zeroSpeedCount = 0
@@ -77,9 +85,7 @@ final class MyMillState {
                 lastDistance = distance
             }
         }
-        if !isRunning && wasRunning {
-            // Don't reset elevationGain — keep cumulative for the session
-            // (Strava path computes its own elevation from samples)
+        if !isRunning && wasRunning && !isPaused {
             lastDistance = 0
         }
         wasRunning = isRunning

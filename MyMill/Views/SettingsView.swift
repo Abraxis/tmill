@@ -13,7 +13,7 @@ struct SettingsView: View {
                 .tabItem { Label("Quick Presets", systemImage: "star") }
                 .tag(1)
         }
-        .frame(width: 450, height: 850)
+        .frame(width: 550, height: 850)
         .navigationTitle("Settings")
     }
 }
@@ -76,7 +76,7 @@ private struct GeneralSettingsTab: View {
                             .font(.caption)
                             .foregroundStyle(.tertiary)
                     }
-                } else {
+                } else if strava.isConfigured {
                     HStack {
                         Text("Not connected")
                             .foregroundStyle(.secondary)
@@ -89,6 +89,39 @@ private struct GeneralSettingsTab: View {
                         .buttonStyle(.borderedProminent)
                         .tint(.orange)
                     }
+                } else {
+                    Text("Configure the API credentials below to enable Strava sync.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Section("Strava API") {
+                TextField("Client ID", text: $settings.stravaClientID)
+                    .textFieldStyle(.roundedBorder)
+                SecureField("Client Secret", text: $settings.stravaClientSecret)
+                    .textFieldStyle(.roundedBorder)
+                TextField("Redirect URI", text: $settings.stravaRedirectURI)
+                    .textFieldStyle(.roundedBorder)
+
+                DisclosureGroup("How to set up Strava API") {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("1. Go to **strava.com/settings/api** and create an app")
+                        Text("2. Fill in any **Application Name** (e.g. \"MyMill\")")
+                        Text("3. Set **Category** to \"Training\"")
+                        Text("4. Set **Authorization Callback Domain** to **localhost**")
+                        Text("5. After creating, copy the **Client ID** and **Client Secret** into the fields above")
+                        Text("6. Leave Redirect URI as the default unless you changed the callback port")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 4)
+
+                    Button("Open Strava API Settings") {
+                        NSWorkspace.shared.open(URL(string: "https://www.strava.com/settings/api")!)
+                    }
+                    .buttonStyle(.link)
+                    .font(.caption)
                 }
             }
 

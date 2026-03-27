@@ -2,29 +2,31 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleIconFile</key>
-    <string>AppIcon</string>
-    <key>LSUIElement</key>
-    <true/>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>MyMill needs Bluetooth to connect to your Merach T25</string>
-    <key>CFBundleName</key>
-    <string>MyMill</string>
-    <key>CFBundleDisplayName</key>
-    <string>MyMill</string>
-    <key>CFBundleIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-    <key>CFBundleVersion</key>
-    <string>1</string>
-    <key>CFBundleShortVersionString</key>
-    <string>0.4.1</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleExecutable</key>
-    <string>$(EXECUTABLE_NAME)</string>
-    <key>NSHealthShareUsageDescription</key>
-    <string>MyMill reads your workout history to avoid duplicates.</string>
-    <key>NSHealthUpdateUsageDescription</key>
-    <string>MyMill saves your walking workouts to Apple Health.</string>
+	<key>CFBundleDisplayName</key>
+	<string>MyMill</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleName</key>
+	<string>MyMill</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.4.1</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>MyMill needs Bluetooth to connect to your Merach T25</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>MyMill reads your workout history to avoid duplicates.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>MyMill saves your walking workouts to Apple Health.</string>
 </dict>
 </plist>

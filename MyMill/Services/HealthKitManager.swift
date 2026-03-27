@@ -143,11 +143,18 @@ final class HealthKitManager {
 
     /// Fetch heart rate samples from HealthKit for a given time window
     func fetchHeartRateSamples(from startDate: Date, to endDate: Date) async -> [(date: Date, bpm: Int)] {
-        guard isAvailable else { return [] }
+        logger.info("Fetching HR: available=\(self.isAvailable), authorized=\(self.isAuthorized), from=\(startDate) to=\(endDate)")
+        guard isAvailable else {
+            logger.warning("HealthKit not available on this device")
+            return []
+        }
 
         if !isAuthorized {
             let ok = await requestAuthorization()
-            guard ok else { return [] }
+            guard ok else {
+                logger.warning("HealthKit authorization denied")
+                return []
+            }
         }
 
         let heartRateType = HKQuantityType(.heartRate)
@@ -160,11 +167,18 @@ final class HealthKitManager {
                 predicate: predicate,
                 limit: HKObjectQueryNoLimit,
                 sortDescriptors: [sortDescriptor]
-            ) { _, samples, error in
-                guard let samples = samples as? [HKQuantitySample], error == nil else {
+            ) { [weak self] _, samples, error in
+                if let error {
+                    self?.logger.error("HR query error: \(error.localizedDescription)")
                     continuation.resume(returning: [])
                     return
                 }
+                guard let samples = samples as? [HKQuantitySample] else {
+                    self?.logger.warning("HR query returned nil samples")
+                    continuation.resume(returning: [])
+                    return
+                }
+                self?.logger.info("HR query returned \(samples.count) samples")
                 let bpmUnit = HKUnit.count().unitDivided(by: .minute())
                 let result = samples.map { sample in
                     (date: sample.startDate, bpm: Int(sample.quantity.doubleValue(for: bpmUnit).rounded()))

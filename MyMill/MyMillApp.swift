@@ -3,21 +3,26 @@ import SwiftUI
 @main
 struct MyMillApp: App {
     @State private var appState = AppState()
+    @Environment(\.openWindow) private var openWindow
 
     var body: some Scene {
         Window("Workout History", id: "history") {
             HistoryWindow()
                 .environment(\.managedObjectContext, appState.persistence.viewContext)
+                .onAppear { appState.openWindowAction = openWindow }
         }
+        .defaultSize(width: 1000, height: 800)
 
         Window("Edit Programs", id: "programs") {
             ProgramEditorView()
                 .environment(\.managedObjectContext, appState.persistence.viewContext)
         }
 
-        Settings {
+        Window("Settings", id: "settings") {
             SettingsView()
+                .frame(minWidth: 500, minHeight: 750)
         }
+        .defaultSize(width: 550, height: 850)
     }
 }
 
@@ -31,6 +36,7 @@ final class AppState {
     var sessionTracker: SessionTracker!
     var programEngine: ProgramEngine!
     var statusBarController: StatusBarController!
+    var openWindowAction: OpenWindowAction?
 
     init() {
         persistence.migrateSessionSamples()
@@ -41,6 +47,7 @@ final class AppState {
             persistence: persistence,
             minDuration: settings.minSessionDuration
         )
+        sessionTracker.recoverIfNeeded()
         statusBarController = StatusBarController(appState: self)
 
         let mgr = manager
@@ -64,6 +71,17 @@ final class AppState {
                 // Session tracking
                 self.sessionTracker.check()
                 self.sessionTracker.recordSample()
+
+                // Snapshot error — show alert immediately
+                if let error = self.sessionTracker.snapshotError {
+                    self.sessionTracker.snapshotError = nil
+                    let alert = NSAlert()
+                    alert.messageText = "Session Backup Warning"
+                    alert.informativeText = error
+                    alert.alertStyle = .warning
+                    alert.addButton(withTitle: "OK")
+                    alert.runModal()
+                }
 
                 // Program engine
                 self.programEngine.updateFromState()

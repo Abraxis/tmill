@@ -13,6 +13,7 @@
 		26B41EA4753F4904AC43039F /* HistoryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C4D9D2DE75156F228C3915 /* HistoryWindow.swift */; };
 		30D32C5CF6871DD6CA544F1D /* MyMillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF3114BEAF5F759C2C9F76 /* MyMillManager.swift */; };
 		385E6002E92D1321D707813A /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA305B5DE8AABD9F09E562F3 /* HealthKitManager.swift */; };
+		F6E5D4C3B2A1 /* HealthExportParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6 /* HealthExportParser.swift */; };
 		39330AAAE200706C3BE35A7F /* ProgramSegment+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF828A021062164836348AF0 /* ProgramSegment+CoreData.swift */; };
 		44AB7DE5DCE1066326BB3094 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B339171AFE87BD7BFA978FE7 /* SettingsView.swift */; };
 		485F1629DDFEF95EAF020468 /* ProgramEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6E55F4FFD56D7E915B55DB /* ProgramEditorView.swift */; };
@@ -69,6 +70,7 @@
 		D45D76A7D24DC5B7058FA201 /* MyMillTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyMillTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7D229721E769470981857D3 /* MyMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA305B5DE8AABD9F09E562F3 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6 /* HealthExportParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthExportParser.swift; sourceTree = "<group>"; };
 		DB6937D446E6EE330B0BA800 /* SessionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTrackerTests.swift; sourceTree = "<group>"; };
 		E14AEB086B621399A3175713 /* ProgramEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEngine.swift; sourceTree = "<group>"; };
 		E3DC768F4B257742F7B6DDC1 /* MyMillApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMillApp.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				DA305B5DE8AABD9F09E562F3 /* HealthKitManager.swift */,
+				A1B2C3D4E5F6 /* HealthExportParser.swift */,
 				4F5A843203EA9DFC5A188F98 /* PersistenceController.swift */,
 				E14AEB086B621399A3175713 /* ProgramEngine.swift */,
 				7057231A22B1EADC33FDBB4B /* SessionTracker.swift */,
@@ -264,6 +267,7 @@
 				BD66785E1B1528B56C0958E3 /* CoreDataModel.swift in Sources */,
 				9C75D71CF396DDE7EBA20DE6 /* FTMSProtocol.swift in Sources */,
 				385E6002E92D1321D707813A /* HealthKitManager.swift in Sources */,
+				F6E5D4C3B2A1 /* HealthExportParser.swift in Sources */,
 				26B41EA4753F4904AC43039F /* HistoryWindow.swift in Sources */,
 				8E52449DC3CA0455D5AF981D /* MyMillApp.swift in Sources */,
 				30D32C5CF6871DD6CA544F1D /* MyMillManager.swift in Sources */,

@@ -45,6 +45,7 @@ final class MyMillManager: NSObject {
         state.connectionStatus = .disconnected
         state.hasControl = false
         state.isRunning = false
+        state.isPaused = false
     }
 
     func requestControl() async -> Bool {
@@ -79,6 +80,9 @@ final class MyMillManager: NSObject {
         let response = await sendCommand(FTMSProtocol.encodeStart())
         if response?.result == .success {
             state.isRunning = true
+            state.isPaused = false
+            // Clear elevation for fresh session (not called on resume)
+            state.resetElevationTracking()
             // Set target speed — treadmill ignores speed when stopped
             let speed = max(state.targetSpeed, FTMSProtocol.speedMin)
             _ = await sendCommand(FTMSProtocol.encodeSetSpeed(kmh: speed))
@@ -103,6 +107,7 @@ final class MyMillManager: NSObject {
         let response = await sendCommand(FTMSProtocol.encodeStop())
         if response?.result == .success {
             state.isRunning = false
+            state.isPaused = false
         } else {
             state.lastError = "Stop failed"
         }
@@ -113,8 +118,30 @@ final class MyMillManager: NSObject {
         let response = await sendCommand(FTMSProtocol.encodePause())
         if response?.result == .success {
             state.isRunning = false
+            state.isPaused = true
         } else {
             state.lastError = "Pause failed"
+        }
+    }
+
+    func resume() async {
+        guard controlPointChar != nil else { return }
+        if !state.hasControl {
+            _ = await requestControl()
+        }
+        let response = await sendCommand(FTMSProtocol.encodeStart())
+        if response?.result == .success {
+            state.isRunning = true
+            state.isPaused = false
+            // Re-apply target speed (belt was stopped during pause)
+            let speed = max(state.targetSpeed, FTMSProtocol.speedMin)
+            _ = await sendCommand(FTMSProtocol.encodeSetSpeed(kmh: speed))
+            // Re-apply target incline (treadmill may reset it on pause)
+            if state.targetIncline > 0 {
+                _ = await sendCommand(FTMSProtocol.encodeSetIncline(percent: state.targetIncline))
+            }
+        } else {
+            state.lastError = "Resume failed"
         }
     }
 
@@ -274,11 +301,9 @@ extension MyMillManager: CBCentralManagerDelegate {
         controlPointChar = nil
         cancelPendingCommand()
         state.hasControl = false
-        let wasRunning = state.isRunning
         state.connectionStatus = .disconnected
-        if !wasRunning {
-            state.isRunning = false
-        }
+        state.isRunning = false
+        state.isPaused = false
         scheduleReconnect()
     }
 
@@ -338,9 +363,22 @@ extension MyMillManager: CBPeripheralDelegate {
         guard !data.isEmpty else { return }
         switch data[0] {
         case 0x04:
-            Task { @MainActor in state.isRunning = true }
-        case 0x02, 0x03:
-            Task { @MainActor in state.isRunning = false }
+            Task { @MainActor in
+                state.isRunning = true
+                state.isPaused = false
+            }
+        case 0x02: // stop
+            Task { @MainActor in
+                state.isRunning = false
+                // Don't clear isPaused — it's managed by pause()/resume()/stop()
+                // Clearing it here causes stopRecording() to fire during a paused session,
+                // which resets elevation gain when the user resumes.
+            }
+        case 0x03: // pause
+            Task { @MainActor in
+                state.isRunning = false
+                state.isPaused = true
+            }
         default:
             break
         }

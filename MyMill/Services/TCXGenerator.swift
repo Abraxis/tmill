@@ -56,6 +56,9 @@ enum TCXGenerator {
                 xml += "<AltitudeMeters>\(String(format: "%.1f", alt))</AltitudeMeters>\n"
             }
 
+            // Include grade/incline as extension for Strava
+            // (altitude changes encode elevation; grade is informational)
+
             if let hr = point.heartRateBPM, hr > 0 {
                 xml += "<HeartRateBpm><Value>\(hr)</Value></HeartRateBpm>\n"
             }

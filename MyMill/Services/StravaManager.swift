@@ -13,10 +13,14 @@ final class StravaManager {
         didSet { UserDefaults.standard.set(syncEnabled, forKey: "stravaSyncEnabled") }
     }
 
-    private let clientID = "55254"
-    private let clientSecret = "6654203c4e9f8ce8551bc45732544e92fd19661f"
-    private let redirectURI = "http://localhost:8089/callback"
+    private var clientID: String { SettingsManager.shared.stravaClientID }
+    private var clientSecret: String { SettingsManager.shared.stravaClientSecret }
+    private var redirectURI: String { SettingsManager.shared.stravaRedirectURI }
     private let logger = Logger(subsystem: "com.mymill.app", category: "Strava")
+
+    var isConfigured: Bool {
+        !clientID.isEmpty && !clientSecret.isEmpty
+    }
 
     private var httpListener: NWListener?
 
@@ -31,6 +35,9 @@ final class StravaManager {
     // MARK: - OAuth2
 
     func authorize() async throws {
+        guard isConfigured else {
+            throw StravaError.uploadFailed("Strava API credentials not configured — check Settings")
+        }
         let code = try await startLocalServerAndGetCode()
         let tokens = try await exchangeCode(code)
         saveTokens(tokens)
@@ -86,7 +93,7 @@ final class StravaManager {
                     timeOffset: sample.timeOffset,
                     distanceMeters: sample.distance,
                     speedMPS: sample.speed / 3.6,
-                    altitudeMeters: sample.altitude > 0 ? sample.altitude : nil,
+                    altitudeMeters: sample.altitude,
                     heartRateBPM: nearestHR?.bpm
                 )
             }
@@ -96,11 +103,42 @@ final class StravaManager {
         do {
             let uploadId = try await uploadTCX(tcx, token: token, name: "MyMill Walk")
             logger.info("Strava upload submitted: \(uploadId)")
-            return await pollForActivityId(uploadId, token: token)
+            let activityId = await pollForActivityId(uploadId, token: token)
+            if let activityId {
+                await updateActivity(activityId, token: token)
+            }
+            return activityId
         } catch {
             logger.error("Strava upload failed: \(error.localizedDescription)")
             return nil
         }
+    }
+
+    /// Check if a Strava activity already exists overlapping the given time window
+    func findExistingActivity(startDate: Date, duration: TimeInterval, token: String) async -> (id: Int64, name: String)? {
+        // Search for activities around the session time
+        let before = Int(startDate.addingTimeInterval(duration + 3600).timeIntervalSince1970)
+        let after = Int(startDate.addingTimeInterval(-3600).timeIntervalSince1970)
+        var request = URLRequest(url: URL(string: "https://www.strava.com/api/v3/athlete/activities?before=\(before)&after=\(after)&per_page=10")!)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        guard let (data, _) = try? await URLSession.shared.data(for: request),
+              let activities = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            return nil
+        }
+
+        for activity in activities {
+            guard let dateStr = activity["start_date"] as? String,
+                  let actId = (activity["id"] as? NSNumber)?.int64Value,
+                  let name = activity["name"] as? String else { continue }
+            let fmt = ISO8601DateFormatter()
+            guard let actDate = fmt.date(from: dateStr) else { continue }
+            // Check if the activity overlaps with our session (within 5 minutes)
+            if abs(actDate.timeIntervalSince(startDate)) < 300 {
+                return (id: actId, name: name)
+            }
+        }
+        return nil
     }
 
     /// Re-upload a previously saved session to Strava
@@ -110,6 +148,11 @@ final class StravaManager {
 
         guard let token = await getValidToken() else {
             throw StravaError.uploadFailed("No valid Strava token")
+        }
+
+        // Check for existing activity
+        if let existing = await findExistingActivity(startDate: session.date, duration: session.duration, token: token) {
+            throw StravaError.duplicate(activityId: existing.id, name: existing.name)
         }
 
         let samples = SessionTracker.buildStravaSamples(from: session.samples)
@@ -128,7 +171,7 @@ final class StravaManager {
                     timeOffset: sample.timeOffset,
                     distanceMeters: sample.distance,
                     speedMPS: sample.speed / 3.6,
-                    altitudeMeters: sample.altitude > 0 ? sample.altitude : nil,
+                    altitudeMeters: sample.altitude,
                     heartRateBPM: nearestHR?.bpm
                 )
             }
@@ -139,7 +182,9 @@ final class StravaManager {
 
         let activityId = await pollForActivityId(uploadId, token: token)
 
-        if activityId == nil {
+        if let activityId {
+            await updateActivity(activityId, token: token)
+        } else {
             if let result = try? await checkUploadStatus(uploadId, token: token),
                result.status.contains("error") {
                 throw StravaError.uploadFailed(result.status)
@@ -327,7 +372,6 @@ final class StravaManager {
         field("data_type", "tcx")
         field("sport_type", "Walk")
         field("name", name)
-        field("trainer", "1")
         field("external_id", UUID().uuidString)
 
         body.append("--\(boundary)\r\nContent-Disposition: form-data; name=\"file\"; filename=\"activity.tcx\"\r\nContent-Type: application/xml\r\n\r\n".data(using: .utf8)!)
@@ -335,8 +379,17 @@ final class StravaManager {
         body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
 
         request.httpBody = body
-        let (respData, _) = try await URLSession.shared.data(for: request)
+        let (respData, resp) = try await URLSession.shared.data(for: request)
+        let httpStatus = (resp as? HTTPURLResponse)?.statusCode ?? 0
         let json = try JSONSerialization.jsonObject(with: respData) as? [String: Any] ?? [:]
+        logger.info("Strava upload response: HTTP \(httpStatus, privacy: .public), body=\(String(data: respData, encoding: .utf8) ?? "nil", privacy: .public)")
+        if let error = json["error"] as? String {
+            throw StravaError.uploadFailed("HTTP \(httpStatus): \(error)")
+        }
+        if let errors = json["errors"] as? [[String: Any]] {
+            let msg = errors.map { "\($0["field"] ?? ""):\($0["code"] ?? "")" }.joined(separator: ", ")
+            throw StravaError.uploadFailed("HTTP \(httpStatus): \(msg)")
+        }
         return "\(json["id"] ?? "unknown")"
     }
 
@@ -354,16 +407,31 @@ final class StravaManager {
         for attempt in 1...3 {
             try? await Task.sleep(for: .seconds(5))
             guard let result = try? await checkUploadStatus(uploadId, token: token) else { continue }
-            logger.info("Strava poll attempt \(attempt): status=\(result.status), activityId=\(String(describing: result.activityId))")
+            logger.info("Strava poll attempt \(attempt): status=\(result.status, privacy: .public), activityId=\(String(describing: result.activityId), privacy: .public)")
             if let activityId = result.activityId {
                 return activityId
             }
             if result.status.contains("error") {
-                logger.error("Strava upload error: \(result.status)")
+                logger.error("Strava upload error: \(result.status, privacy: .public)")
                 return nil
             }
         }
         return nil
+    }
+
+    /// Update activity to ensure trainer flag is off (so Strava preserves elevation data)
+    private func updateActivity(_ activityId: Int64, token: String) async {
+        var request = URLRequest(url: URL(string: "https://www.strava.com/api/v3/activities/\(activityId)")!)
+        request.httpMethod = "PUT"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = #"{"trainer":false,"sport_type":"Walk"}"#.data(using: .utf8)
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            logger.info("Strava activity update: \(String(data: data, encoding: .utf8)?.prefix(200) ?? "nil", privacy: .public)")
+        } catch {
+            logger.error("Strava activity update failed: \(error.localizedDescription, privacy: .public)")
+        }
     }
 
     // MARK: - Helpers
@@ -378,9 +446,19 @@ final class StravaManager {
     }
 }
 
-enum StravaError: Error {
+enum StravaError: LocalizedError {
     case denied
     case uploadFailed(String)
+    case duplicate(activityId: Int64, name: String)
+
+    var errorDescription: String? {
+        switch self {
+        case .denied: return "Strava authorization was denied"
+        case .uploadFailed(let msg): return msg
+        case .duplicate(let id, let name):
+            return "Activity \"\(name)\" already exists on Strava (ID: \(id)). Delete it on Strava first, then re-upload."
+        }
+    }
 }
 
 struct StravaUploadResult {

@@ -31,6 +31,8 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     private let startItem = NSMenuItem()
     private let stopItem = NSMenuItem()
     private let pauseItem = NSMenuItem()
+    private let resumeItem = NSMenuItem()
+    private let endSessionItem = NSMenuItem()
 
     private let adjustSeparator = NSMenuItem.separator()
     private let speedUpItem = NSMenuItem()
@@ -102,6 +104,14 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         pauseItem.title = "⏸ Pause"
         wireAction(pauseItem) { Task { await mgr.pause() } }
         menu.addItem(pauseItem)
+
+        resumeItem.title = "▶ Resume Session"
+        wireAction(resumeItem) { Task { await mgr.resume() } }
+        menu.addItem(resumeItem)
+
+        endSessionItem.title = "⏹ End Session"
+        wireAction(endSessionItem) { Task { await mgr.stop() } }
+        menu.addItem(endSessionItem)
 
         // Adjustments
         menu.addItem(adjustSeparator)
@@ -183,9 +193,14 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         settingsItem.title = "Settings..."
         settingsItem.keyEquivalent = ","
         settingsItem.keyEquivalentModifierMask = .command
-        wireAction(settingsItem) {
+        wireAction(settingsItem) { [weak self] in
+            guard let s = self?.appState else { return }
             NSApplication.shared.activate(ignoringOtherApps: true)
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+            if let openWindow = s.openWindowAction {
+                openWindow(id: "settings")
+            } else if let w = NSApp.windows.first(where: { $0.title == "Settings" }) {
+                w.makeKeyAndOrderFront(nil)
+            }
         }
         menu.addItem(settingsItem)
 
@@ -217,9 +232,13 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         // Status line
         if connected {
             let name = t.deviceName.isEmpty ? "MyMill" : t.deviceName
-            statusLine.title = running
-                ? "\(name) — \(String(format: "%.1f km/h", t.speed))"
-                : "\(name) — Idle"
+            if t.isPaused {
+                statusLine.title = "\(name) — Paused"
+            } else {
+                statusLine.title = running
+                    ? "\(name) — \(String(format: "%.1f km/h", t.speed))"
+                    : "\(name) — Idle"
+            }
         } else {
             statusLine.title = "MyMill"
         }
@@ -239,9 +258,12 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         }
 
         // Controls
-        startItem.isHidden = !connected || running
-        stopItem.isHidden = !connected || !running
-        pauseItem.isHidden = !connected || !running
+        let paused = t.isPaused
+        startItem.isHidden = !connected || running || paused
+        stopItem.isHidden = !connected || !running || paused
+        pauseItem.isHidden = !connected || !running || paused
+        resumeItem.isHidden = !connected || !paused
+        endSessionItem.isHidden = !connected || !paused
 
         // Adjustments
         for item in [speedUpItem, speedDownItem, inclineUpItem, inclineDownItem] {
@@ -302,12 +324,30 @@ final class StatusBarController: NSObject, NSMenuDelegate {
 
         let presets = appState.settings.quickPresets
         let mgr = appState.manager
+        let mymill = appState.mymill
         for preset in presets {
             let item = NSMenuItem()
             item.title = "⚡ \(preset.name) — \(String(format: "%.1f", preset.speed)) km/h, \(String(format: "%.0f", preset.incline))%"
             let action = MenuAction {
                 Task {
+                    // Start treadmill first if not running, then speed before incline
+                    if !mymill.isRunning {
+                        mymill.targetSpeed = preset.speed
+                        if mymill.isPaused {
+                            await mgr.resume()
+                        } else {
+                            await mgr.start()
+                        }
+                    }
                     await mgr.setSpeed(preset.speed)
+                    // Wait for belt to reach target speed before adjusting incline
+                    // (treadmill can't handle simultaneous speed + incline changes)
+                    if preset.incline > 0 {
+                        let deadline = Date().addingTimeInterval(30)
+                        while abs(mymill.speed - preset.speed) > 0.5 && Date() < deadline {
+                            try? await Task.sleep(for: .milliseconds(500))
+                        }
+                    }
                     await mgr.setIncline(preset.incline)
                 }
             }

@@ -27,8 +27,9 @@ struct HistoryWindow: View {
                 sessionList
                     .frame(minWidth: 180, idealWidth: 220, maxWidth: 280)
                 if let session = selectedSession {
+                    let hasHR = session.avgHeartRate > 0
                     SessionDetailView(session: session)
-                        .frame(minWidth: 450)
+                        .frame(minWidth: hasHR ? 600 : 450)
                 } else {
                     Text("Select a session")
                         .foregroundStyle(.secondary)

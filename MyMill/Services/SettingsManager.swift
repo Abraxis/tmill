@@ -31,6 +31,15 @@ final class SettingsManager {
     var quickPresets: [QuickPreset] {
         didSet { syncPresets() }
     }
+    var stravaClientID: String {
+        didSet { sync(key: "stravaClientID", value: stravaClientID) }
+    }
+    var stravaClientSecret: String {
+        didSet { sync(key: "stravaClientSecret", value: stravaClientSecret) }
+    }
+    var stravaRedirectURI: String {
+        didSet { sync(key: "stravaRedirectURI", value: stravaRedirectURI) }
+    }
 
     private let cloud = NSUbiquitousKeyValueStore.default
     private let defaults = UserDefaults.standard
@@ -50,6 +59,9 @@ final class SettingsManager {
         self.launchAtLogin = d.bool(forKey: "launchAtLogin")
         self.speedIncrement = si
         self.inclineIncrement = ii
+        self.stravaClientID = d.string(forKey: "stravaClientID") ?? "55254"
+        self.stravaClientSecret = d.string(forKey: "stravaClientSecret") ?? "6654203c4e9f8ce8551bc45732544e92fd19661f"
+        self.stravaRedirectURI = d.string(forKey: "stravaRedirectURI").flatMap({ $0.isEmpty ? nil : $0 }) ?? "http://localhost:8089/callback"
 
         // Load quick presets
         if let data = d.data(forKey: "quickPresets"),
@@ -93,6 +105,15 @@ final class SettingsManager {
         if let data = cloud.data(forKey: "quickPresets"),
            let presets = try? JSONDecoder().decode([QuickPreset].self, from: data) {
             quickPresets = presets
+        }
+        if let v = cloud.string(forKey: "stravaClientID"), !v.isEmpty {
+            stravaClientID = v
+        }
+        if let v = cloud.string(forKey: "stravaClientSecret"), !v.isEmpty {
+            stravaClientSecret = v
+        }
+        if let v = cloud.string(forKey: "stravaRedirectURI"), !v.isEmpty {
+            stravaRedirectURI = v
         }
     }
 

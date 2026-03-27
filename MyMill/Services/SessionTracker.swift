@@ -6,6 +6,8 @@ import os
 @Observable
 final class SessionTracker {
     private(set) var isRecording = false
+    /// Set when a snapshot write fails — observe this to show an alert
+    var snapshotError: String?
 
     private let state: MyMillState
     private let persistence: PersistenceController
@@ -19,6 +21,15 @@ final class SessionTracker {
     private var sessionStartDistance: Double = 0
     private var sessionStartElapsed: TimeInterval = 0
     private var sessionStartCalories: Int = 0
+    private var ticksSinceSnapshot: Int = 0
+
+    private static let snapshotInterval = 5  // every 5 ticks × 2s = 10s
+    private static let snapshotURL: URL = {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let dir = appSupport.appendingPathComponent("MyMill", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir.appendingPathComponent("session_recovery.json")
+    }()
 
     private let logger = Logger(subsystem: "com.mymill.app", category: "SessionTracker")
 
@@ -32,7 +43,7 @@ final class SessionTracker {
     func check() {
         if state.isRunning && !isRecording {
             startRecording()
-        } else if !state.isRunning && isRecording {
+        } else if !state.isRunning && !state.isPaused && isRecording {
             stopRecording()
         }
     }
@@ -50,6 +61,62 @@ final class SessionTracker {
             inclineSum += state.incline
             inclineSampleCount += 1
         }
+
+        // Periodic snapshot to disk for crash recovery
+        ticksSinceSnapshot += 1
+        if ticksSinceSnapshot >= Self.snapshotInterval {
+            ticksSinceSnapshot = 0
+            saveSnapshot()
+        }
+    }
+
+    // MARK: - Crash Recovery
+
+    /// Check for a recovery snapshot on launch and restore it if found.
+    func recoverIfNeeded() {
+        let url = Self.snapshotURL
+        guard FileManager.default.fileExists(atPath: url.path) else { return }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let snapshot = try JSONDecoder().decode(SessionSnapshot.self, from: data)
+            let duration = snapshot.duration
+            guard duration >= minDuration else {
+                logger.info("Recovery snapshot too short (\(duration)s), discarding")
+                removeSnapshot()
+                return
+            }
+
+            logger.info("Recovering session: \(snapshot.samples.count) samples, \(duration)s")
+
+            let samples = WorkoutSession.trimTrailingZeros(from: snapshot.samples)
+            let elevationGain = WorkoutSession.calculateElevationGain(from: samples)
+            let avgIncline = snapshot.inclineSampleCount > 0
+                ? snapshot.inclineSum / Double(snapshot.inclineSampleCount) : 0
+
+            let context = persistence.viewContext
+            let session = WorkoutSession(
+                entity: NSEntityDescription.entity(forEntityName: "WorkoutSession", in: context)!,
+                insertInto: context
+            )
+            session.id = UUID()
+            session.date = snapshot.startDate
+            session.duration = duration
+            session.distance = snapshot.distance
+            session.calories = Int32(snapshot.calories)
+            session.avgSpeed = snapshot.avgSpeed
+            session.maxSpeed = snapshot.maxSpeed
+            session.avgIncline = avgIncline
+            session.elevationGain = elevationGain
+            session.speedSamples = try? JSONEncoder().encode(samples)
+
+            persistence.save()
+            logger.info("Recovered session saved: \(snapshot.distance)m, \(duration)s")
+        } catch {
+            logger.error("Recovery failed: \(error.localizedDescription)")
+        }
+
+        removeSnapshot()
     }
 
     // MARK: - Private
@@ -64,6 +131,8 @@ final class SessionTracker {
         maxSpeed = 0
         inclineSum = 0
         inclineSampleCount = 0
+        ticksSinceSnapshot = 0
+        state.elevationGain = 0
         logger.info("Session recording started")
     }
 
@@ -76,12 +145,54 @@ final class SessionTracker {
         let duration = state.elapsed - sessionStartElapsed
         logger.info("Session recording stopped, duration: \(duration)s")
 
+        // Clean up snapshot — session is being saved properly
+        removeSnapshot()
+
         guard duration >= minDuration else {
             logger.info("Session too short (\(duration)s < \(self.minDuration)s), discarding")
             return
         }
 
         saveSession(duration: duration)
+    }
+
+    private func saveSnapshot() {
+        let snapshot = SessionSnapshot(
+            startDate: sessionStartDate ?? Date(),
+            duration: state.elapsed - sessionStartElapsed,
+            distance: state.distance - sessionStartDistance,
+            calories: state.calories - sessionStartCalories,
+            avgSpeed: state.avgSpeed,
+            maxSpeed: maxSpeed,
+            inclineSum: inclineSum,
+            inclineSampleCount: inclineSampleCount,
+            samples: samples
+        )
+
+        do {
+            let data = try JSONEncoder().encode(snapshot)
+            try data.write(to: Self.snapshotURL, options: .atomic)
+        } catch {
+            logger.error("Snapshot save failed: \(error.localizedDescription)")
+            snapshotError = "Session backup failed: \(error.localizedDescription)"
+        }
+    }
+
+    private func removeSnapshot() {
+        try? FileManager.default.removeItem(at: Self.snapshotURL)
+    }
+
+    /// Snapshot of in-progress session data for crash recovery
+    private struct SessionSnapshot: Codable {
+        let startDate: Date
+        let duration: TimeInterval
+        let distance: Double
+        let calories: Int
+        let avgSpeed: Double
+        let maxSpeed: Double
+        let inclineSum: Double
+        let inclineSampleCount: Int
+        let samples: [WorkoutSession.Sample]
     }
 
     private func buildStravaSamples() -> [(timeOffset: TimeInterval, speed: Double, distance: Double, altitude: Double)] {
